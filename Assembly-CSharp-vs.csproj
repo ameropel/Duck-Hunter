@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+	<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+	<ProductVersion>10.0.20506</ProductVersion>
+	<SchemaVersion>2.0</SchemaVersion>
+	<ProjectGuid>{F1F9F102-87D7-17C5-A662-1E0A94D37683}</ProjectGuid>
+	<OutputType>Library</OutputType>
+	<AppDesignerFolder>Properties</AppDesignerFolder>
+	<RootNamespace></RootNamespace>
+	<AssemblyName>Assembly-CSharp</AssemblyName>
+	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+	<FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+	<DebugSymbols>true</DebugSymbols>
+	<DebugType>full</DebugType>
+	<Optimize>false</Optimize>
+	<OutputPath>Temp\bin\Debug\</OutputPath>
+	<DefineConstants>DEBUG;TRACE;UNITY_ANDROID;ENABLE_MICROPHONE;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;ENABLE_AUDIO_FMOD;ENABLE_NETWORK;ENABLE_MONO;ENABLE_PHYSICS;ENABLE_TERRAIN;ENABLE_CACHING;ENABLE_SUBSTANCE;ENABLE_GENERICS;UNITY_ANDROID_API;ENABLE_CLOTH;ENABLE_AUDIO;ENABLE_WWW;ENABLE_SHADOWS;UNITY_4_1_5;UNITY_4_1;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_EDITOR</DefineConstants>
+	<ErrorReport>prompt</ErrorReport>
+	<WarningLevel>4</WarningLevel>
+	<NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+	<DebugType>pdbonly</DebugType>
+	<Optimize>true</Optimize>
+	<OutputPath>Temp\bin\Release\</OutputPath>
+	<DefineConstants>TRACE</DefineConstants>
+	<ErrorReport>prompt</ErrorReport>
+	<WarningLevel>4</WarningLevel>
+	<NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+	<Reference Include="System" />
+    <Reference Include="System.XML" />
+	<Reference Include="System.Core" />
+	<Reference Include="UnityEngine">
+	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEngine.dll</HintPath>
+	</Reference>
+	<Reference Include="UnityEditor">
+	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.dll</HintPath>
+	</Reference>
+  </ItemGroup>
+  <ItemGroup>
+     <Compile Include="Assets\Art\Textures\Scenery\Water\Scripts\WaterSimple.cs" />
+     <Compile Include="Assets\Scripts\Android\Android_Accelerometer.cs" />
+     <Compile Include="Assets\Scripts\Android\Android_Compass.cs" />
+     <Compile Include="Assets\Scripts\Buttons\Holding Buttons\btn_hold_Zoom_Weapon.cs" />
+     <Compile Include="Assets\Scripts\Buttons\Main Buttons\Button.cs" />
+     <Compile Include="Assets\Scripts\Buttons\Main Buttons\ButtonManager.cs" />
+     <Compile Include="Assets\Scripts\Buttons\Main Buttons\MouseHold.cs" />
+     <Compile Include="Assets\Scripts\Buttons\Main Buttons\Scroll.cs" />
+     <Compile Include="Assets\Scripts\Buttons\Main Buttons\Slider.cs" />
+     <Compile Include="Assets\Scripts\Buttons\Main Buttons\Toggle.cs" />
+     <Compile Include="Assets\Scripts\Buttons\Standard Button\btn_Fire_Shotgun.cs" />
+     <Compile Include="Assets\Scripts\Buttons\Standard Button\btn_Reload_Shotgun.cs" />
+     <Compile Include="Assets\Scripts\Buttons\Standard Button\btn_Start_Game.cs" />
+     <Compile Include="Assets\Scripts\Debug\Debugger.cs" />
+     <Compile Include="Assets\Scripts\Debug\FPS.cs" />
+     <Compile Include="Assets\Scripts\Game Components\DestroyParticle.cs" />
+     <Compile Include="Assets\Scripts\Game Components\GameCountDown.cs" />
+     <Compile Include="Assets\Scripts\Game Components\GameFader.cs" />
+     <Compile Include="Assets\Scripts\Gun\Bullet.cs" />
+     <Compile Include="Assets\Scripts\Gun\GunController.cs" />
+     <Compile Include="Assets\Scripts\Main Components\AudioManager.cs" />
+     <Compile Include="Assets\Scripts\Main Components\CameraController.cs" />
+     <Compile Include="Assets\Scripts\Main Components\GameController.cs" />
+     <Compile Include="Assets\Scripts\Main Components\InputManager.cs" />
+     <Compile Include="Assets\Scripts\Main Components\ScriptHelper.cs" />
+     <None Include="Assets\Plugins\Android\res\values-v14\styles.xml" />
+     <None Include="Assets\Plugins\Android\res\values-v11\styles.xml" />
+     <None Include="Assets\Plugins\Android\res\values\styles.xml" />
+     <None Include="Assets\Plugins\Android\bin\AndroidManifest.xml" />
+     <None Include="Assets\Plugins\Android\proguard-project.txt" />
+     <None Include="Assets\Art\Textures\Scenery\Water\Shaders\FX-Water Simple.shader" />
+     <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
+     <None Include="Assets\Plugins\Android\res\values\strings.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+	   Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  
+</Project>
