@@ -85,7 +85,24 @@ public class GunController : MonoBehaviour
 	
 	void Update()
 	{
+		#if UNITY_EDITOR
+		EditorInput();
+		#endif
 		Weapon_Zoom_In(Zoom_In);
+	}
+	
+	void EditorInput()
+	{
+		if (Input.GetKey(KeyCode.Z))
+			Zoom_In = true;
+		else if (Input.GetKeyUp(KeyCode.Z))
+			Zoom_In = false;
+		
+		if (Input.GetKeyDown(KeyCode.X))
+			FireShotgun();
+		
+		if (Input.GetKeyDown(KeyCode.C))
+			ReloadWeapon();
 	}
 	
 	#region Fire Weapon
@@ -105,7 +122,7 @@ public class GunController : MonoBehaviour
 				StartCoroutine( NoAmmoDelay() );
 				
 				// Debug Text
-				Debug.Log("No Ammo");
+				ScriptHelper.DebugString("No Ammo");
 			}
 		}
 		else
@@ -116,7 +133,7 @@ public class GunController : MonoBehaviour
 				!reloading_weapon)
 			{
 				// Debug Text
-				Debug.Log("Fire!");
+				ScriptHelper.DebugString("Fire!");
 				
 				// Vibrate Device when shoot
 				Handheld.Vibrate();
@@ -141,7 +158,7 @@ public class GunController : MonoBehaviour
 					!reloading_weapon)
 			{
 				// Debug Text
-				Debug.Log("Must Wait to Shoot");		
+				ScriptHelper.DebugString("Must Wait to Shoot");		
 			}
 		}
 	}
@@ -189,7 +206,7 @@ public class GunController : MonoBehaviour
 			current_ammo != maximum_ammo)
 		{
 			// Debug Text
-			Debug.Log("Reloading");
+			ScriptHelper.DebugString("Reloading");
 			
 			// Start reloading weapon
 			StartCoroutine( ReloadingWeaponDelay() ); 
@@ -268,45 +285,35 @@ public class GunController : MonoBehaviour
 	{
 		if (zoom_in)
 		{
-			if (Camera.main.fieldOfView == 40 && !weapon_anim.isPlaying)
+			if (gameObject.camera.fieldOfView == 40 && !weapon_anim.isPlaying)
 			{
-				//Debug.Log("No more zooming in");
 				Zoom_In = false;
 				return;
 			}
 			else if (weapon_anim.isPlaying)
 			{
-				//Debug.Log("zooming");
 				weapon_anim.animation[weapon_zoom_in].speed = 1.0f;
 				Zoom_In = false;
 				return;	
 			}
 			else if (weapon_anim.animation[weapon_zoom_in].normalizedTime == 0)
 			{
-				//Debug.Log("zoom start");
 				weapon_anim.animation[weapon_zoom_in].speed = 1.0f;
 				weapon_anim.Play(weapon_zoom_in);
 			}
 		}
 		else
 		{
-			if (Camera.main.fieldOfView == 40 && !weapon_anim.isPlaying)
+			if (gameObject.camera.fieldOfView == 40 && !weapon_anim.isPlaying)
 			{
-				//Debug.Log("Reverse  Top");
 				weapon_anim.animation[weapon_zoom_in].normalizedTime = 1.0f;
 				weapon_anim.animation[weapon_zoom_in].speed = -1.0f;
 				weapon_anim.Play(weapon_zoom_in);
 			}
 			else if (weapon_anim.animation[weapon_zoom_in].normalizedTime == 0)
-			{
-				//Debug.Log("no more zooming out");
 				return;
-			}
 			else
-			{
-				//Debug.Log("reverse");
 				weapon_anim.animation[weapon_zoom_in].speed = -1.0f;
-			}
 		}
 	}
 }

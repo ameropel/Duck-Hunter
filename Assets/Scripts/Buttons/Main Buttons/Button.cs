@@ -20,7 +20,7 @@ public class Button : MonoBehaviour
 		buttonCollider = gameObject.collider;
 		
 		// Get camera for hud
-		Camera _camera = GameObject.Find("HUD").gameObject.camera;	
+		Camera _camera = Camera.main;	
 		
 		// Scale button to screen ratio
 		transform.position = ScriptHelper.ScaleToViewport(_camera, 1, transform.position);

@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Android_Compass : MonoBehaviour 
 {
+	[HideInInspector] public bool CompassLoaded;	// Detect if compass is loaded
+	#if UNITY_ANDROID && !UNITY_EDITOR
 	static float xValue;
 	//static float yValue;
 	//static float zValue;
@@ -13,7 +15,6 @@ public class Android_Compass : MonoBehaviour
 	
 	[HideInInspector] public float Yaw  { get{ return xValue;} }		// Only allow user to read yaw data, not change it
 	
-	[HideInInspector] public bool CompassLoaded;	// Detect if compass is loaded
 	
 	// Use this for initialization
 	void Awake () 
@@ -54,4 +55,5 @@ public class Android_Compass : MonoBehaviour
 		}
 		
 	}
+	#endif
 }

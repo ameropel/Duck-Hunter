@@ -10,11 +10,13 @@ public class GameFader : MonoBehaviour
 	
 	void Start()
 	{
+		#if UNITY_ANDROID && !UNITY_EDITOR
 		Fade = gameObject.guiTexture;	// Set Fade to be gameObjects guiTexture
 		
 		// Make guiTexture fit screen coordinates
 		Fade.pixelInset = new Rect(-Screen.width/2, -Screen.height/2, Screen.width, Screen.height);
 		Fade.color = TransBlack;	// Make guiTexture at start to be TransBlack
+		#endif
 	}
 	
 	// Fade guiTexture from clear to black

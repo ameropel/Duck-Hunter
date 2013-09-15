@@ -123,4 +123,10 @@ public static class ScriptHelper
 		
 		return position;
 	}
+	
+	//Debug
+	public static void DebugString(string debug)
+	{
+		//Debug.Log(debug);	
+	}
 }

@@ -2,12 +2,13 @@ using UnityEngine;
 using System.Collections;
 
 public class GameController : MonoBehaviour 
-{
+{	
 	// Script Holder
 	#if UNITY_ANDROID && !UNITY_EDITOR
 	Android_Compass	sc_Android_Compass;
 	#endif
 	[SerializeField] GameCountDown sc_GameCountDown;
+	[SerializeField] GameObject Duck;
 	
 	[HideInInspector] public enum GameStatus
 	{	LOADING = 0, PLAYING, PAUSED	};
@@ -31,14 +32,13 @@ public class GameController : MonoBehaviour
 	
 	IEnumerator GameStartUp()
 	{
+		#if UNITY_ANDROID && !UNITY_EDITOR
 		// Make games status to be loading
 		GameState = GameStatus.LOADING;
 		
-		#if UNITY_ANDROID && !UNITY_EDITOR
 		// Wait until android compass is active
 		while(!sc_Android_Compass.CompassLoaded)
 			yield return null;
-		#endif
 		
 		// Wait for game start button and counter to be completed
 		while(!sc_GameCountDown.GameCounterCompleted)
@@ -46,5 +46,11 @@ public class GameController : MonoBehaviour
 		
 		// Change game status to playing
 		GameState = GameStatus.PLAYING;
+		#else
+		
+		// Change game status to playing
+		GameState = GameStatus.PLAYING;
+		yield return null;
+		#endif
 	}
 }

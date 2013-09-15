@@ -18,8 +18,12 @@ public class GameCountDown : MonoBehaviour
 	
 	void Start()
 	{
+		#if UNITY_ANDROID && !UNITY_EDITOR
 		Press_To_Start.SetActive(true);
 		StartCoroutine( CoutDown_Timer() );
+		#else
+		DestroyImmediate(sc_btn_Start_Game.gameObject);
+		#endif
 	}
 	
 	IEnumerator CoutDown_Timer()

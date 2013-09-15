@@ -56,9 +56,11 @@
      <Compile Include="Assets\Scripts\Buttons\Main Buttons\Toggle.cs" />
      <Compile Include="Assets\Scripts\Buttons\Standard Button\btn_Fire_Shotgun.cs" />
      <Compile Include="Assets\Scripts\Buttons\Standard Button\btn_Reload_Shotgun.cs" />
+     <Compile Include="Assets\Scripts\Buttons\Standard Button\btn_Restart.cs" />
      <Compile Include="Assets\Scripts\Buttons\Standard Button\btn_Start_Game.cs" />
      <Compile Include="Assets\Scripts\Debug\Debugger.cs" />
      <Compile Include="Assets\Scripts\Debug\FPS.cs" />
+     <Compile Include="Assets\Scripts\Duck\Duck.cs" />
      <Compile Include="Assets\Scripts\Game Components\DestroyParticle.cs" />
      <Compile Include="Assets\Scripts\Game Components\GameCountDown.cs" />
      <Compile Include="Assets\Scripts\Game Components\GameFader.cs" />
