@@ -25,7 +25,7 @@ public class CameraController : MonoBehaviour
 	float old_yaw, new_yaw, current_yaw, starting_yaw, yaw_max, yaw_min;
 	float yaw_angle_max = 110;
 	float yaw_angle_min = -110;
-	float camera_yaw_drag = 0.55f;	// Time it takes for user to look left to right (drag value)
+	float camera_yaw_drag = 0.65f;	// Time it takes for user to look left to right (drag value)
 	
 	
 	void Awake()

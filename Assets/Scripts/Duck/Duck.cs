@@ -6,33 +6,30 @@ public class Duck : MonoBehaviour
 	[SerializeField] GameController sc_GameController;
 	[SerializeField] GameObject Head, Body, Right_Wing, Left_Wing;
 	[SerializeField] AnimationClip anim_Flying, anim_DeathFly;
+	[SerializeField] GameObject GraveYard;
 	
 	float death_time = 5.0f;			// Time till duck can decay
 	float decay_time = 2.0f;			// Time duck decays
 	bool  death_timer_started;
-	[SerializeField] Vector3 velocity;	// Speed at which duck travels
+	float death_speed = 150.0f;
 	
 	float death_floor = -10;	// If duck is past this point, automatically destroyed
 	
+	bool in_group;
+	
 	void Start()
 	{
-		StartCoroutine( DebugForce() );
-	}
-	
-	IEnumerator DebugForce()
-	{
-		while(sc_GameController.GameState != GameController.GameStatus.PLAYING)
-			yield return null;
-		
-		// Apply force
-		rigidbody.AddForce(velocity);
+		// Take note if the duck is flying in a pack or a lone wolf.
+		// This will be used later to tell if it should remove spline script from gameObject
+		// or if should remove gameObject from group of ducks
+		if (transform.parent.tag == "Duck Wave")
+			in_group = true;
 	}
 	
 	public void Duck_Hit(string object_name)
 	{
 		// Turn on ducks gravity so it falls out of the sky
 		rigidbody.useGravity = true;
-		rigidbody.drag = 2.0f;
 		
 		// Turn death animation on
 		gameObject.animation.CrossFade(anim_DeathFly.name);
@@ -45,7 +42,25 @@ public class Duck : MonoBehaviour
 		
 		// Turn on main body collider
 		gameObject.collider.enabled = true;
-
+		
+		// If in a group remove from pack so that the dead duck will not still
+		// follow spline route
+		if (in_group)
+		{
+			// Apply a death force
+			rigidbody.AddForce( transform.right * death_speed);
+			// Add duck to graveyard
+			transform.parent = GraveYard.transform;
+		}
+		else
+		{
+			// Apply death force
+			rigidbody.AddForce( transform.right * death_speed);
+			
+			// Remove ducks paths from lone wolf duck
+			Destroy(gameObject.GetComponent<SplineController>());
+			Destroy(gameObject.GetComponent<SplineInterpolator>());
+		}
 	}
 	
 	void Update()

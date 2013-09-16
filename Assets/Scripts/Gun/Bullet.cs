@@ -51,8 +51,8 @@ public class Bullet : MonoBehaviour
 			if (hit.collider.transform.parent)
 			{
 				// If the hit gameObjects parents name is duck
-				if (hit.collider.transform.parent.name == "duck")
-				{					
+				if (hit.collider.transform.parent.tag == "Duck")
+				{				
 					// Tell duck that it has been hit by a bullet
 					duck = hit.collider.transform.parent.GetComponent<Duck>();
 					duck.Duck_Hit(hit.collider.gameObject.name);

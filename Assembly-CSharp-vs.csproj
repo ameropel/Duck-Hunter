@@ -71,6 +71,9 @@
      <Compile Include="Assets\Scripts\Main Components\GameController.cs" />
      <Compile Include="Assets\Scripts\Main Components\InputManager.cs" />
      <Compile Include="Assets\Scripts\Main Components\ScriptHelper.cs" />
+     <Compile Include="Assets\Scripts\Splines\MathUtils.cs" />
+     <Compile Include="Assets\Scripts\Splines\SplineController.cs" />
+     <Compile Include="Assets\Scripts\Splines\SplineInterpolator.cs" />
      <None Include="Assets\Plugins\Android\res\values-v14\styles.xml" />
      <None Include="Assets\Plugins\Android\res\values-v11\styles.xml" />
      <None Include="Assets\Plugins\Android\res\values\styles.xml" />
