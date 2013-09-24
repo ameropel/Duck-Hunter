@@ -67,7 +67,7 @@ public class CameraController : MonoBehaviour
 						* 360) / sc_Android_Compass.Yaw_Range) + 0;
 		
 		yaw_max = starting_yaw + yaw_angle_max;
-		yaw_min = starting_yaw + yaw_angle_min;
+		yaw_min = starting_yaw + yaw_angle_min; 
 		#endif
 		
 		yield return null;

@@ -66,9 +66,11 @@
      <Compile Include="Assets\Scripts\Game Components\GameFader.cs" />
      <Compile Include="Assets\Scripts\Gun\Bullet.cs" />
      <Compile Include="Assets\Scripts\Gun\GunController.cs" />
+     <Compile Include="Assets\Scripts\Main Components\AIManager.cs" />
      <Compile Include="Assets\Scripts\Main Components\AudioManager.cs" />
      <Compile Include="Assets\Scripts\Main Components\CameraController.cs" />
      <Compile Include="Assets\Scripts\Main Components\GameController.cs" />
+     <Compile Include="Assets\Scripts\Main Components\GameTimer.cs" />
      <Compile Include="Assets\Scripts\Main Components\InputManager.cs" />
      <Compile Include="Assets\Scripts\Main Components\ScriptHelper.cs" />
      <Compile Include="Assets\Scripts\Splines\MathUtils.cs" />

@@ -58,8 +58,7 @@ public class Bullet : MonoBehaviour
 					duck.Duck_Hit(hit.collider.gameObject.name);
 				}
 			}
-		}
-		
+		}	
 	}
 			
 	IEnumerator Bullet_Death_Timer()

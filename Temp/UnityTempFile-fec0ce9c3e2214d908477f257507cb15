@@ -1,0 +1,59 @@
+-debug
+-target:library
+-nowarn:0169
+-out:'Temp/Assembly-CSharp.dll'
+-r:'/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEngine.dll'
+-r:'/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.dll'
+-define:UNITY_ANDROID
+-define:ENABLE_MICROPHONE
+-define:ENABLE_IMAGEEFFECTS
+-define:ENABLE_WEBCAM
+-define:ENABLE_AUDIO_FMOD
+-define:ENABLE_NETWORK
+-define:ENABLE_MONO
+-define:ENABLE_PHYSICS
+-define:ENABLE_TERRAIN
+-define:ENABLE_CACHING
+-define:ENABLE_SUBSTANCE
+-define:ENABLE_GENERICS
+-define:UNITY_ANDROID_API
+-define:ENABLE_CLOTH
+-define:ENABLE_AUDIO
+-define:ENABLE_WWW
+-define:ENABLE_SHADOWS
+-define:UNITY_4_1_5
+-define:UNITY_4_1
+-define:ENABLE_PROFILER
+-define:UNITY_EDITOR
+'Assets/Art/Textures/Scenery/Water/Scripts/WaterSimple.cs'
+'Assets/Scripts/Android/Android_Accelerometer.cs'
+'Assets/Scripts/Android/Android_Compass.cs'
+'Assets/Scripts/Buttons/Holding Buttons/btn_hold_Zoom_Weapon.cs'
+'Assets/Scripts/Buttons/Main Buttons/Button.cs'
+'Assets/Scripts/Buttons/Main Buttons/ButtonManager.cs'
+'Assets/Scripts/Buttons/Main Buttons/MouseHold.cs'
+'Assets/Scripts/Buttons/Main Buttons/Scroll.cs'
+'Assets/Scripts/Buttons/Main Buttons/Slider.cs'
+'Assets/Scripts/Buttons/Main Buttons/Toggle.cs'
+'Assets/Scripts/Buttons/Standard Button/btn_Fire_Shotgun.cs'
+'Assets/Scripts/Buttons/Standard Button/btn_Reload_Shotgun.cs'
+'Assets/Scripts/Buttons/Standard Button/btn_Restart.cs'
+'Assets/Scripts/Buttons/Standard Button/btn_Start_Game.cs'
+'Assets/Scripts/Debug/Debugger.cs'
+'Assets/Scripts/Debug/FPS.cs'
+'Assets/Scripts/Duck/Duck.cs'
+'Assets/Scripts/Game Components/DestroyParticle.cs'
+'Assets/Scripts/Game Components/GameCountDown.cs'
+'Assets/Scripts/Game Components/GameFader.cs'
+'Assets/Scripts/Gun/Bullet.cs'
+'Assets/Scripts/Gun/GunController.cs'
+'Assets/Scripts/Main Components/AIManager.cs'
+'Assets/Scripts/Main Components/AudioManager.cs'
+'Assets/Scripts/Main Components/CameraController.cs'
+'Assets/Scripts/Main Components/GameController.cs'
+'Assets/Scripts/Main Components/GameTimer.cs'
+'Assets/Scripts/Main Components/InputManager.cs'
+'Assets/Scripts/Main Components/ScriptHelper.cs'
+'Assets/Scripts/Splines/MathUtils.cs'
+'Assets/Scripts/Splines/SplineController.cs'
+'Assets/Scripts/Splines/SplineInterpolator.cs'
