@@ -8,13 +8,11 @@ public class Duck : MonoBehaviour
 	[SerializeField] AnimationClip anim_Flying, anim_DeathFly;
 	[SerializeField] GameObject GraveYard;
 	
-	float death_time = 5.0f;			// Time till duck can decay
-	float decay_time = 2.0f;			// Time duck decays
+	float death_time = 5.0f;	// Time till duck floats on water dead
+	float decay_time = 2.0f;	// Time duck decays to grave
 	bool  death_timer_started;
-	float death_speed = 150.0f;
-	
+	float death_speed = 150.0f;	
 	float death_floor = -10;	// If duck is past this point, automatically destroyed
-	
 	bool in_group;
 	
 	void Start()
@@ -26,11 +24,14 @@ public class Duck : MonoBehaviour
 			in_group = true;
 	}
 	
-	public void Duck_Hit(string object_name)
-	{
+	public void Duck_Hit(string object_name, Vector3 hitPoint)
+	{		
 		// Turn on ducks gravity so it falls out of the sky
 		rigidbody.useGravity = true;
 		
+		// Rotate duck where bullet was hit
+		rigidbody.AddTorque(hitPoint * death_speed);
+
 		// Turn death animation on
 		gameObject.animation.CrossFade(anim_DeathFly.name);
 				
@@ -91,7 +92,6 @@ public class Duck : MonoBehaviour
 			Destroy(gameObject);
 	}
 	
-	
 	IEnumerator Death_Timer()
 	{		
 		// Death timer has started
@@ -101,8 +101,16 @@ public class Duck : MonoBehaviour
 		rigidbody.useGravity = false;
 		rigidbody.isKinematic = true;
 		
+		// Instantiate water_splash
+		Instantiate(Resources.Load("Prefabs/Particles/water_splash_big"), 
+			new Vector3(transform.position.x, 0.1f, transform.position.z),
+			Quaternion.Euler(new Vector3(-90,0,0)) );
+		
 		// Destroy main collider
 		Destroy(gameObject.collider);
+		
+		// Position and rotate dead duck correctly
+		StartCoroutine( PositionDeadDuck() );
 		
 		// Calculate death timer
 		float time = 0;
@@ -130,4 +138,26 @@ public class Duck : MonoBehaviour
 		// Destroy Duck
 		Destroy(gameObject);
 	}
+
+	IEnumerator PositionDeadDuck()
+	{
+		Quaternion rot   = transform.rotation;
+		Vector3 pos      = transform.position;
+		Vector3 deathPos = new Vector3( pos.x, 0, pos.z);
+		float positioning_time = 0.25f;
+		
+		
+		float time = 0;
+		while (time < 1)
+		{
+			time += Time.deltaTime / positioning_time;
+			
+			// Rotate and position duck so its flat on water
+			transform.rotation = Quaternion.Lerp(rot, Quaternion.LookRotation(transform.forward), time);
+			transform.position = Vector3.Lerp(pos, deathPos, time);
+			
+			yield return null;
+		}
+	}		
+		
 }

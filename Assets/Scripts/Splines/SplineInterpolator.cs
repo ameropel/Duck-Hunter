@@ -8,6 +8,9 @@ public delegate void OnEndCallback();
 
 public class SplineInterpolator : MonoBehaviour
 {
+	// Script Holder
+	GameTimer sc_GameTimer;
+	
 	eEndPointsMode mEndPointsMode = eEndPointsMode.AUTO;
 
 	internal class SplineNode
@@ -29,6 +32,8 @@ public class SplineInterpolator : MonoBehaviour
 
 	void Awake()
 	{
+		// Find Game Timer
+		sc_GameTimer = GameObject.FindGameObjectWithTag("Game Timer").GetComponent<GameTimer>();
 		Reset();
 	}
 
@@ -135,7 +140,8 @@ public class SplineInterpolator : MonoBehaviour
 		if (mState == "Reset" || mState == "Stopped" || mNodes.Count < 4)
 			return;
 
-		mCurrentTime += Time.deltaTime;
+		//mCurrentTime += Time.deltaTime;
+		mCurrentTime += sc_GameTimer.Game_deltaTime;
 
 		// We advance to next point in the path
 		if (mCurrentTime >= mNodes[mCurrentIdx + 1].Time)

@@ -6,7 +6,9 @@ public class GunController : MonoBehaviour
 	#region Script Variables
 	
 	// Scripts
-	AudioManager sc_AudioManager;
+	[SerializeField] AudioManager sc_AudioManager;
+	[SerializeField] GameScore    sc_GameScore;
+	[SerializeField] GameTimer    sc_GameTimer;
 	
 	// Screen Resolution
 	[HideInInspector] public float screen_footer_height;						// Footer height
@@ -19,15 +21,12 @@ public class GunController : MonoBehaviour
 	private int ammo_text_size = 40;
 	
 	// Bullet
-	[SerializeField] GameObject Bullet;
+	[SerializeField] GameObject BulletPrefab;
 	[SerializeField] GameObject Bullet_Spawn_Point;
 	
 	// Particles
 	[SerializeField] GameObject Shotgun_Particle;
 	[SerializeField] GameObject Particle_Spawn_Point;
-	
-	// GameObject Weapon
-	//GameObject weapon;
 	
 	// Ammunition
 	private int maximum_ammo = 8;
@@ -49,15 +48,10 @@ public class GunController : MonoBehaviour
 	// Animations
 	Animation  weapon_anim;
 	public string weapon_zoom_in;
+	public string weapon_reload;
+	public string weapon_final_reload;
 	
 	#endregion
-	
-	
-	void Awake()
-	{
-		// Get AudioManager script
-		sc_AudioManager = GameObject.FindGameObjectWithTag("Audio Manager").GetComponent<AudioManager>();	
-	}
 	
 	void Start()
 	{
@@ -148,7 +142,8 @@ public class GunController : MonoBehaviour
 				//Add particles to shot
 				Instantiate(Shotgun_Particle, Particle_Spawn_Point.transform.position, Quaternion.LookRotation(Particle_Spawn_Point.transform.forward));
 				// Instantiate bullet
-				Instantiate(Bullet, Bullet_Spawn_Point.transform.position, Quaternion.LookRotation(Bullet_Spawn_Point.transform.forward));
+				GameObject bullet = Instantiate(BulletPrefab, Bullet_Spawn_Point.transform.position, Quaternion.LookRotation(Bullet_Spawn_Point.transform.forward)) as GameObject;
+				bullet.GetComponent<Bullet>().sc_GameScore = sc_GameScore;
 				
 				// Start Delay Timer for Firing
 				StartCoroutine( FireWeaponDelay() );
@@ -172,7 +167,7 @@ public class GunController : MonoBehaviour
 		float time = 0;
 		while (time < 1)
 		{
-			time += Time.deltaTime / time_between_no_ammo;
+			time += sc_GameTimer.Game_deltaTime / time_between_no_ammo;
 			yield return null;
 		}
 		
@@ -189,7 +184,7 @@ public class GunController : MonoBehaviour
 		float time = 0;		// time between shots
 		while (time < 1)
 		{
-			time += Time.deltaTime / time_between_shots;
+			time += sc_GameTimer.Game_deltaTime / time_between_shots;
 			yield return null;
 		}
 		
@@ -205,6 +200,10 @@ public class GunController : MonoBehaviour
 		if (!reloading_weapon &&
 			current_ammo != maximum_ammo)
 		{
+			// Play animation to start reload process (bring gun close)
+			weapon_anim.animation[weapon_reload].speed = 1;
+			weapon_anim.animation.CrossFade(weapon_reload);
+			
 			// Debug Text
 			ScriptHelper.DebugString("Reloading");
 			
@@ -227,7 +226,7 @@ public class GunController : MonoBehaviour
 			float time = 0;
 			while (time < 1)
 			{
-				time += Time.deltaTime / time_between_reload;
+				time += sc_GameTimer.Game_deltaTime / time_between_reload;
 				yield return null;
 			}
 			
@@ -244,6 +243,11 @@ public class GunController : MonoBehaviour
 			yield return null;	
 		}
 		
+		// Reverse reload animation (bring gun away from user)
+		weapon_anim.animation[weapon_reload].normalizedTime = 1;
+		weapon_anim.animation[weapon_reload].speed = -1;
+		weapon_anim.animation.Play(weapon_reload);
+		
 		StartCoroutine( FinalReload() );
 		
 	}
@@ -255,9 +259,12 @@ public class GunController : MonoBehaviour
 		float time = 0;
 		while (time < 1)
 		{
-			time += Time.deltaTime / time_between_reload;
+			time += sc_GameTimer.Game_deltaTime / time_between_reload;
 			yield return null;
 		}
+		
+		// Play reload pump animation
+		weapon_anim.animation.CrossFade(weapon_final_reload);
 		
 		// Play shotgun final reload audioclip
 		sc_AudioManager.PlayAudioClip((int)AudioManager.SoundClips.SHOTGUN_RELOAD_FINAL);
@@ -266,7 +273,7 @@ public class GunController : MonoBehaviour
 		time = 0;
 		while (time < 1)
 		{
-			time += Time.deltaTime / time_final_reload;
+			time += sc_GameTimer.Game_deltaTime / time_final_reload;
 			yield return null;
 		}
 		

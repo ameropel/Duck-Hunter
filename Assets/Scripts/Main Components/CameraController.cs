@@ -8,6 +8,7 @@ public class CameraController : MonoBehaviour
 	Android_Accelerometer sc_Android_Accelerometer;
 	Android_Compass 	  sc_Android_Compass;
 	#endif
+	[SerializeField] GameTimer sc_GameTimer;
 	[SerializeField] GameController sc_GameController;
 		
 	// Calculate pitch
@@ -155,8 +156,8 @@ public class CameraController : MonoBehaviour
 		
 				
 		// Change current position to laged position
-		current_pitch = Mathf.Lerp(old_pitch, new_pitch, (Time.deltaTime / camera_pitch_drag));
-		current_yaw   = Mathf.LerpAngle(old_yaw, new_yaw, (Time.deltaTime / camera_yaw_drag));
+		current_pitch = Mathf.Lerp(old_pitch, new_pitch, (sc_GameTimer.Game_deltaTime / camera_pitch_drag));
+		current_yaw   = Mathf.LerpAngle(old_yaw, new_yaw, (sc_GameTimer.Game_deltaTime / camera_yaw_drag));
 			
 		// Set cameras position the lagged position
 		transform.rotation = ScriptHelper.ToQ(current_yaw, current_pitch, 0);

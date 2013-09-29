@@ -3,14 +3,16 @@ using System.Collections;
 
 public class Bullet : MonoBehaviour 
 {
-	float velocity = 3000;
+	[HideInInspector] public GameScore sc_GameScore;
+	
+	public float velocity = 3000;
 	float death_time = 5;
 	bool hit_object;
 	
 	int max_distance = 100;
 	Vector3 start_pos;
 	Vector3 end_pos;
-
+	
 	void Start()
 	{
 		start_pos = new Vector3(transform.position.x, transform.position.y + .01f, transform.position.z);
@@ -35,6 +37,7 @@ public class Bullet : MonoBehaviour
 	{
 		RaycastHit hit;
 		Duck duck = null;
+		bool hitObject = false;
 		
 		// Check to see if mouse hit collider object
 		if (Physics.Raycast(start_pos, end_pos, out hit) )
@@ -46,19 +49,31 @@ public class Bullet : MonoBehaviour
 							new Vector3(hit.point.x, 0.1f, hit.point.z),
 							Quaternion.Euler(new Vector3(-90,0,0)) );
 			}
-			
 			// If the gameobject that has been hit does not contain a parent, ignore
-			if (hit.collider.transform.parent)
+			else if (hit.collider.transform.parent)
 			{
 				// If the hit gameObjects parents name is duck
 				if (hit.collider.transform.parent.tag == "Duck")
 				{				
 					// Tell duck that it has been hit by a bullet
 					duck = hit.collider.transform.parent.GetComponent<Duck>();
-					duck.Duck_Hit(hit.collider.gameObject.name);
+					duck.Duck_Hit(hit.collider.gameObject.name, hit.point);
+					
+					// Hit point valued object
+					hitObject = true;
+					// Change score, hit duck
+					sc_GameScore.ChangeScore(GameScore.ObjectHit.DUCK);
+					
+					// Destroy bullet, its duty has been fulfilled
+					Destroy(gameObject);
 				}
 			}
-		}	
+			
+		}
+		
+		// Did not hit anything worthy, deduct hit miss
+		if (!hitObject)
+			sc_GameScore.ChangeScore(GameScore.ObjectHit.MISS);
 	}
 			
 	IEnumerator Bullet_Death_Timer()
@@ -75,10 +90,9 @@ public class Bullet : MonoBehaviour
 		Destroy(gameObject);
 	}
 	
+	/*
 	void OnCollisionEnter( Collision hit)
 	{	
-		/*
-		
 		// If already hit an object ignore the rest of function
 		if (hit_object)
 			return;
@@ -109,8 +123,7 @@ public class Bullet : MonoBehaviour
 			
 			// Destroy the bullet
 			Destroy(gameObject);	
-		}
-		
-		*/
+		}	
 	}
+	*/
 }

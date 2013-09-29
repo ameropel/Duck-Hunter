@@ -4,12 +4,13 @@ using System.Collections;
 public class GameTimer : MonoBehaviour 
 {
 	// Script Holder
+	[SerializeField] AudioManager   sc_AudioManager;
 	[SerializeField] GameController sc_GameController;
-	[SerializeField] GUIText[] TimerText;				// Countdown text
 	
+	[SerializeField] GUIText[] TimerText;			// Countdown text
 	[HideInInspector] public float CountDownTimer;	// Countdown clock for game over
 	[HideInInspector] public bool  GameTime_Ended;	// Boolean used if countdown timer reached zero
-	[HideInInspector] public float GameplayTime;	// GameTime, used for any even dealing with time.
+	[HideInInspector] public float Game_deltaTime;	// GameTime, used for any even dealing with time.
 	[HideInInspector] public float GameSpeed = 1;	// Game speed. If greater than 1 game speed is reduced.
 	const float MAX_GAMEPLAY_TIME = 300;			// Time is in second, default is 300 (5 minutes) 
 	
@@ -19,7 +20,7 @@ public class GameTimer : MonoBehaviour
 		CountDownTimer = MAX_GAMEPLAY_TIME;	
 		
 		// Set Gameplay Timer
-		GameplayTime = (Time.deltaTime / GameSpeed);
+		Game_deltaTime = (Time.deltaTime / GameSpeed);
 		
 		// Change gameplay text
 		foreach(GUIText text in TimerText)
@@ -27,9 +28,9 @@ public class GameTimer : MonoBehaviour
 	}
 	
 	void Update()
-	{
+	{		
 		// Set Gameplay Timer
-		GameplayTime = (Time.deltaTime / GameSpeed);
+		Game_deltaTime = (Time.deltaTime / GameSpeed);
 		
 		// If game is not playing do not update game time
 		if (sc_GameController.GameState != GameController.GameStatus.PLAYING)
@@ -40,7 +41,7 @@ public class GameTimer : MonoBehaviour
 			return;
 		
 		// Check if GameTimer time is up
-		if (CountDownTimer <= 0)
+		if (CountDownTimer <= 1)
 		{
 			// If time is less then or equal to zero,
 			// call end game function and ignore rest of function
@@ -49,7 +50,7 @@ public class GameTimer : MonoBehaviour
 		}
 			
 		// Subtract Time from GameTimer
-		CountDownTimer -= GameplayTime;
+		CountDownTimer -= Game_deltaTime;
 		
 		// Change gameplay text
 		foreach(GUIText text in TimerText)
@@ -69,5 +70,22 @@ public class GameTimer : MonoBehaviour
 	{
 		// GameTimer has ended
 		GameTime_Ended = true;
+	}
+	
+	public void SlowGameplayDown(float speed)
+	{
+		// Value can not be less then 1. If so game will speed up
+		// This function is only meant to slow down the game, not speed up
+		if (speed < 1)
+			return;
+		
+		// Slow down game by speed amount
+		GameSpeed += speed;
+		
+		// Slow down audio (pitch decrease) by speed amount
+		sc_AudioManager.ChangePitch(speed);
+		
+		// Debug current game speed
+		ScriptHelper.DebugString("Game Speed = " + (1 - speed));
 	}
 }
