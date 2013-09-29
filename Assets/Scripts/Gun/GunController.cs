@@ -290,6 +290,10 @@ public class GunController : MonoBehaviour
 	
 	void Weapon_Zoom_In(bool zoom_in)
 	{
+		// If weapon is reloading user cannot zoom in 
+		if (reloading_weapon)
+			return;
+		
 		if (zoom_in)
 		{
 			if (gameObject.camera.fieldOfView == 40 && !weapon_anim.isPlaying)

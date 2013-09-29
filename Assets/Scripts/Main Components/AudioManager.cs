@@ -9,6 +9,8 @@ public class AudioManager : MonoBehaviour
 	[SerializeField] AudioClip Shotgun_Reload;
 	[SerializeField] AudioClip Shotgun_Reload_Final;
 	[SerializeField] AudioClip Shotgun_Out_Of_Ammo;
+	[SerializeField] AudioClip Duck_Call_1;
+	[SerializeField] AudioClip Duck_Call_2;
 	#endregion
 	
 	AudioSource audioSource;
@@ -18,10 +20,15 @@ public class AudioManager : MonoBehaviour
 	
 	public enum SoundClips
 	{
+		// Shotgun sounds
 		SHOTGUN_FIRE = 0,
 		SHOTGUN_RELOAD,
 		SHOTGUN_RELOAD_FINAL,
-		SHOTGUN_OUT_OF_AMMO
+		SHOTGUN_OUT_OF_AMMO,
+		
+		// Duck sounds
+		DUCK_CALL_1,
+		DUCK_CALL_2
 	}
 	
 	void Awake()
@@ -30,10 +37,15 @@ public class AudioManager : MonoBehaviour
 		soundDictionary = new Dictionary<int, AudioClip>();
 		
 		// Add audio clips to dictionary
+		
+		// Shotgun
 		soundDictionary.Add((int)SoundClips.SHOTGUN_FIRE, Shotgun_Fire);
 		soundDictionary.Add((int)SoundClips.SHOTGUN_RELOAD, Shotgun_Reload);
 		soundDictionary.Add((int)SoundClips.SHOTGUN_RELOAD_FINAL, Shotgun_Reload_Final);
 		soundDictionary.Add((int)SoundClips.SHOTGUN_OUT_OF_AMMO, Shotgun_Out_Of_Ammo);
+		//Duck
+		soundDictionary.Add((int)SoundClips.DUCK_CALL_1, Duck_Call_1);
+		soundDictionary.Add((int)SoundClips.DUCK_CALL_2, Duck_Call_2);
 	}
 	
 	void Start()
@@ -45,7 +57,7 @@ public class AudioManager : MonoBehaviour
 	public void PlayAudioClip(int key)
 	{
 		if( soundDictionary.ContainsKey(key) && soundDictionary[key])
-			audio.PlayOneShot(soundDictionary[key], 0.7f);
+			audio.PlayOneShot(soundDictionary[key], 0.5f);
 	}
 	
 	public void ChangePitch(float gameSpeed)
@@ -54,5 +66,14 @@ public class AudioManager : MonoBehaviour
 		// Take normal pitch and subtract the gamespeed value times the decrement value
 		float pitch = 1 - (PitchDecrement * (gameSpeed-1));
 		audioSource.pitch = pitch;
+	}
+	
+	public void PlayRandom_DuckDeath()
+	{
+		// Play random duck death sound from preselected list
+		int random_int = Random.Range((int)SoundClips.DUCK_CALL_1, (int)SoundClips.DUCK_CALL_2+1);
+	
+		if( soundDictionary.ContainsKey(random_int) && soundDictionary[random_int])
+			audio.PlayOneShot(soundDictionary[random_int], 10.0f);
 	}
 }

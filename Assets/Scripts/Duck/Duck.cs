@@ -3,7 +3,10 @@ using System.Collections;
 
 public class Duck : MonoBehaviour 
 {
+	// Script holder
+	[SerializeField] AudioManager   sc_AudioManager;
 	[SerializeField] GameController sc_GameController;
+	
 	[SerializeField] GameObject Head, Body, Right_Wing, Left_Wing;
 	[SerializeField] AnimationClip anim_Flying, anim_DeathFly;
 	[SerializeField] GameObject GraveYard;
@@ -25,7 +28,11 @@ public class Duck : MonoBehaviour
 	}
 	
 	public void Duck_Hit(string object_name, Vector3 hitPoint)
-	{		
+	{	
+		// Play duck death sound
+		//sc_AudioManager.PlayRandom_DuckDeath();
+		sc_AudioManager.PlayAudioClip((int)AudioManager.SoundClips.DUCK_CALL_2);
+		
 		// Turn on ducks gravity so it falls out of the sky
 		rigidbody.useGravity = true;
 		
