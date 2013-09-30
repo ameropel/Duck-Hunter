@@ -9,7 +9,9 @@ public delegate void OnEndCallback();
 public class SplineInterpolator : MonoBehaviour
 {
 	// Script Holder
-	GameTimer sc_GameTimer;
+ 	[HideInInspector] public AIManager      sc_AIManager;
+	[HideInInspector] public GameController sc_GameController;
+	[HideInInspector] public GameTimer      sc_GameTimer;
 	
 	eEndPointsMode mEndPointsMode = eEndPointsMode.AUTO;
 
@@ -27,13 +29,13 @@ public class SplineInterpolator : MonoBehaviour
 	List<SplineNode> mNodes = new List<SplineNode>();
 	string mState = "";
 	bool mRotations;
+	[HideInInspector] public float QuaterTime;
+	[HideInInspector] public bool  ReachedQuaterTime;
 
 	OnEndCallback mOnEndCallback;
 
 	void Awake()
 	{
-		// Find Game Timer
-		sc_GameTimer = GameObject.FindGameObjectWithTag("Game Timer").GetComponent<GameTimer>();
 		Reset();
 	}
 
@@ -60,7 +62,7 @@ public class SplineInterpolator : MonoBehaviour
 	}
 
 	public void AddPoint(Vector3 pos, Quaternion quat, float timeInSeconds, Vector2 easeInOut)
-	{
+	{	
 		if (mState != "Reset")
 			throw new System.Exception("Cannot add points after start");
 
@@ -137,12 +139,25 @@ public class SplineInterpolator : MonoBehaviour
 
 	void Update()
 	{
+		// Make sure game is playing
+		if (sc_GameController.GameState != GameController.GameStatus.PLAYING)
+			return;
+		
 		if (mState == "Reset" || mState == "Stopped" || mNodes.Count < 4)
 			return;
 
 		//mCurrentTime += Time.deltaTime;
 		mCurrentTime += sc_GameTimer.Game_deltaTime;
-
+		
+		if (!ReachedQuaterTime)
+		{
+			if (mCurrentTime >= QuaterTime)
+			{
+				ReachedQuaterTime = true;
+				sc_AIManager.Add_AIPath(gameObject.GetComponent<SplineController>().SplineRoot);
+			}
+		}
+		
 		// We advance to next point in the path
 		if (mCurrentTime >= mNodes[mCurrentIdx + 1].Time)
 		{
@@ -165,6 +180,9 @@ public class SplineInterpolator : MonoBehaviour
 					// We call back to inform that we are ended
 					if (mOnEndCallback != null)
 						mOnEndCallback();
+					
+					// Reached end of spline, delete
+					Destroy(gameObject);
 				}
 				else
 				{
@@ -247,5 +265,10 @@ public class SplineInterpolator : MonoBehaviour
 		param = MathUtils.Ease(param, mNodes[idx].EaseIO.x, mNodes[idx].EaseIO.y);
 
 		return GetHermiteInternal(idx, param);
+	}
+	
+	void OnDisable()
+	{
+		Destroy(gameObject.GetComponent<SplineController>().SplineRoot);
 	}
 }

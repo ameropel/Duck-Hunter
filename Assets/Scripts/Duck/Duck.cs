@@ -4,19 +4,20 @@ using System.Collections;
 public class Duck : MonoBehaviour 
 {
 	// Script holder
-	[SerializeField] AudioManager   sc_AudioManager;
-	[SerializeField] GameController sc_GameController;
+	[HideInInspector] public AIManager      sc_AIManager;
+	[HideInInspector] public AudioManager   sc_AudioManager;
+	[HideInInspector] public GameController sc_GameController;
 	
+	[HideInInspector] public GameObject GraveYard;
 	[SerializeField] GameObject Head, Body, Right_Wing, Left_Wing;
 	[SerializeField] AnimationClip anim_Flying, anim_DeathFly;
-	[SerializeField] GameObject GraveYard;
 	
 	float death_time = 5.0f;	// Time till duck floats on water dead
 	float decay_time = 2.0f;	// Time duck decays to grave
 	bool  death_timer_started;
 	float death_speed = 150.0f;	
 	float death_floor = -10;	// If duck is past this point, automatically destroyed
-	bool in_group;
+	[HideInInspector] public bool InGroup;
 	
 	void Start()
 	{
@@ -24,11 +25,14 @@ public class Duck : MonoBehaviour
 		// This will be used later to tell if it should remove spline script from gameObject
 		// or if should remove gameObject from group of ducks
 		if (transform.parent.tag == "Duck Wave")
-			in_group = true;
+			InGroup = true;
 	}
 	
 	public void Duck_Hit(string object_name, Vector3 hitPoint)
 	{	
+		// Add duck to graveyard
+		transform.parent = GraveYard.transform;
+		
 		// Play duck death sound
 		//sc_AudioManager.PlayRandom_DuckDeath();
 		sc_AudioManager.PlayAudioClip((int)AudioManager.SoundClips.DUCK_CALL_2);
@@ -51,24 +55,8 @@ public class Duck : MonoBehaviour
 		// Turn on main body collider
 		gameObject.collider.enabled = true;
 		
-		// If in a group remove from pack so that the dead duck will not still
-		// follow spline route
-		if (in_group)
-		{
-			// Apply a death force
-			rigidbody.AddForce( transform.right * death_speed);
-			// Add duck to graveyard
-			transform.parent = GraveYard.transform;
-		}
-		else
-		{
-			// Apply death force
-			rigidbody.AddForce( transform.right * death_speed);
-			
-			// Remove ducks paths from lone wolf duck
-			Destroy(gameObject.GetComponent<SplineController>());
-			Destroy(gameObject.GetComponent<SplineInterpolator>());
-		}
+		// Apply a death force
+		rigidbody.AddForce( transform.right * death_speed);
 	}
 	
 	void Update()
@@ -166,5 +154,18 @@ public class Duck : MonoBehaviour
 			yield return null;
 		}
 	}		
+	
+	void OnDisable()
+	{		
+		if (sc_GameController.GameState == GameController.GameStatus.QUIT)
+			return;
+		
+		sc_AIManager.RemoveDuckFromWave(gameObject);
+		
+		int childCount = transform.parent.childCount;
+			
+		if (childCount == 1 && InGroup)
+			Destroy(transform.parent.gameObject);
+	}
 		
 }

@@ -11,7 +11,7 @@ public class GameController : MonoBehaviour
 	[SerializeField] GameObject Duck;
 	
 	[HideInInspector] public enum GameStatus
-	{	LOADING = 0, PLAYING, PAUSED	};
+	{	LOADING = 0, PLAYING, PAUSED, QUIT	};
 	[HideInInspector] public GameStatus GameState;
 	
 	void Awake()
@@ -52,5 +52,10 @@ public class GameController : MonoBehaviour
 		GameState = GameStatus.PLAYING;
 		yield return null;
 		#endif
+	}
+	
+	void OnApplicationQuit()
+	{
+		GameState = GameStatus.QUIT;
 	}
 }

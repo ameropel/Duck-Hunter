@@ -15,7 +15,6 @@ public class SplineController : MonoBehaviour
 	public bool AutoStart = true;
 	public bool AutoClose = true;
 	public bool HideOnExecute = true;
-	
 	//[HideInInspector] public float VelocityTraveling;
 
 
@@ -45,14 +44,12 @@ public class SplineController : MonoBehaviour
 		}
 	}
 	
-	void Awake()
-	{
-	}
-
 	void Start()
 	{	
 		mSplineInterp = GetComponent(typeof(SplineInterpolator)) as SplineInterpolator;
 
+		mSplineInterp.QuaterTime = Duration * .25f;
+		
 		mTransforms = GetTransforms();
 		
 		// Get velocity for traveling
