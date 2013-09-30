@@ -1,14 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Main Components/AIManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Duck/Duck.cs">
     <Files>
-      <File FileName="Assets/Scripts/Main Components/GameController.cs" Line="59" Column="12" />
-      <File FileName="Assets/Scripts/Duck/Duck.cs" Line="159" Column="3" />
-      <File FileName="Assets/Scripts/Main Components/GameTimer.cs" Line="34" Column="3" />
-      <File FileName="Assets/Scripts/Gun/GunController.cs" Line="113" Column="40" />
-      <File FileName="Assets/Scripts/Main Components/AIManager.cs" Line="162" Column="21" />
-      <File FileName="Assets/Scripts/Splines/SplineInterpolator.cs" Line="272" Column="67" />
-      <File FileName="Assets/Scripts/Splines/SplineController.cs" Line="51" Column="45" />
+      <File FileName="Assets/Scripts/Main Components/GameController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Duck/Duck.cs" Line="34" Column="47" />
+      <File FileName="Assets/Scripts/Main Components/GameTimer.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Gun/GunController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/AI/AIManager.cs" Line="40" Column="33" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -9,18 +9,18 @@ public class AIManager : MonoBehaviour
 	[SerializeField] GameController sc_GameController;
 	[SerializeField] GameTimer 		sc_GameTimer;
 	
-	GameObject GraveYard;
 	[SerializeField] Transform DuckWave;
+	GameObject GraveYard;
 	GameObject duckWave_One;
+	GameObject duckWave_Two;
 	GameObject duckWave_Three;
-	float timeBetweenWaves = 15;
-	float aiPath_Duration = 40;
+	float timeBetweenWaves = 15;	// Time to launch a new wave
+	float aiPath_Duration = 40;		// Time it takes duck to reach point a to b
 	
-	[HideInInspector]
-	public List<GameObject> DuckWaves = new List<GameObject>();		// Holds duck waves
-	List<GameObject> DuckWaveTypes = new List<GameObject>();		// Holds duck types
-	public List<GameObject> AI_Paths = new List<GameObject>();				// Holds ai paths ducks can take
-	public List<GameObject> AI_PathsUsed = new List<GameObject>();			// Holds ai paths ducks are using
+	List<GameObject> DuckWaveTypes = new List<GameObject>();							// Holds duck types
+	[HideInInspector] public List<GameObject> DuckWaves = new List<GameObject>();		// Holds duck waves
+	[HideInInspector] public List<GameObject> AI_Paths = new List<GameObject>();		// Holds ai paths ducks can take
+	[HideInInspector] public List<GameObject> AI_PathsUsed = new List<GameObject>();	// Holds ai paths ducks are using
 	
 	void Start()
 	{
@@ -29,6 +29,7 @@ public class AIManager : MonoBehaviour
 		
 		// Get all duck waves
 		duckWave_One = Resources.Load("Prefabs/Targets/Ducks/duckWave_One") as GameObject;
+		duckWave_Two = Resources.Load("Prefabs/Targets/Ducks/duckWave_Two") as GameObject;
 		duckWave_Three = Resources.Load("Prefabs/Targets/Ducks/duckWave_Three") as GameObject;
 		
 		// Get all possible ai paths ducks can take
@@ -36,18 +37,25 @@ public class AIManager : MonoBehaviour
 
 		// Get all duckwaves
 		DuckWaveTypes.Add(duckWave_One);
+		DuckWaveTypes.Add(duckWave_Two);
 		DuckWaveTypes.Add(duckWave_Three);
 		
-		// Get all ai paths ducks can follow
+		// Get all ai paths ducks can follow	
 		for (int i=0; i < All_AI_Paths.Length; i++)
-			AI_Paths.Add(All_AI_Paths[i] as GameObject);
-
+		{
+			GameObject path = All_AI_Paths[i] as GameObject;
+			AI_Paths.Add(path);
+		}
+		
 		// Start timer		
 		StartCoroutine( WaveTimer() );
 	}
 	
 	IEnumerator WaveTimer()
 	{
+		if (sc_GameController.GameState != GameController.GameStatus.PLAYING)
+				yield return null;
+		
 		// Create two waves
 		CreateDuckWave(2);
 		
@@ -63,8 +71,11 @@ public class AIManager : MonoBehaviour
 			yield return null;	
 		}
 		
-		// Restart wave timer
-		StartCoroutine( WaveTimer() );
+		if (sc_GameTimer.CountDownTimer > aiPath_Duration)
+		{
+			// Restart wave timer
+			StartCoroutine( WaveTimer() );
+		}
 	}
 	
 	
@@ -120,7 +131,8 @@ public class AIManager : MonoBehaviour
 				Add_AIPath(wave.GetComponent<SplineController>().SplineRoot);
 			
 			// Remove wave frome list
-			DuckWaves.Remove(wave.gameObject);		
+			DuckWaves.Remove(wave.gameObject);
+			Destroy(wave.gameObject);
 		}
 	}	
 	
@@ -139,28 +151,38 @@ public class AIManager : MonoBehaviour
 		
 		AI_Paths.Remove(path);
 		AI_PathsUsed.Add(path);
-		ScriptHelper.DebugString("Took away " + path.name);
+		ScriptHelper.DebugString("Took away " + newPath.name);
 		
 		return newPath; 
 	}
 	
 	public void Add_AIPath(GameObject path)
 	{
+		int pathId = path.GetComponent<ai_DuckPath>().Path_Id;
+		
 		bool addPath = true;
 		for (int i=0; i < AI_Paths.Count; i++)
 		{
-			if (AI_Paths[i].name == path.name)
+			if (AI_Paths[i].GetComponent<ai_DuckPath>().Path_Id == pathId)
 			{
-				ScriptHelper.DebugString(AI_Paths[i].name + " == " + path.name + "    CANT ADD");		
 				addPath = false;
+				break;
 			}
 		}
 		
 		if(addPath)
 		{
-			ScriptHelper.DebugString("Readded path name: " + path.name);
-			AI_Paths.Add(path);
-			AI_PathsUsed.Remove(path);
+			for (int i=0; i < AI_PathsUsed.Count; i++)
+			{
+				if (AI_PathsUsed[i].GetComponent<ai_DuckPath>().Path_Id == pathId)
+				{
+					ScriptHelper.DebugString("Readded path name: " + path.name);
+					AI_Paths.Add(AI_PathsUsed[i]);
+					AI_PathsUsed.Remove(AI_PathsUsed[i]);
+					break;
+				}
+			}
+				
 		}
 	}
 }

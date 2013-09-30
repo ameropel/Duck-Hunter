@@ -24,6 +24,10 @@ public class SplineController : MonoBehaviour
 	void OnDrawGizmos()
 	{
 		Transform[] trans = GetTransforms();
+		
+		if (trans == null)
+			return;
+		
 		if (trans.Length < 2)
 			return;
 
@@ -45,7 +49,7 @@ public class SplineController : MonoBehaviour
 	}
 	
 	void Start()
-	{	
+	{			
 		mSplineInterp = GetComponent(typeof(SplineInterpolator)) as SplineInterpolator;
 
 		mSplineInterp.QuaterTime = Duration * .25f;

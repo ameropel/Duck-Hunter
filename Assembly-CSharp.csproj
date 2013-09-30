@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Art\Textures\Scenery\Water\Scripts\WaterSimple.cs" />
+     <Compile Include="Assets\Scripts\AI\AIManager.cs" />
+     <Compile Include="Assets\Scripts\AI\ai_DuckPath.cs" />
      <Compile Include="Assets\Scripts\Android\Android_Accelerometer.cs" />
      <Compile Include="Assets\Scripts\Android\Android_Compass.cs" />
      <Compile Include="Assets\Scripts\Buttons\Holding Buttons\btn_hold_Zoom_Weapon.cs" />
@@ -66,7 +68,6 @@
      <Compile Include="Assets\Scripts\Game Components\GameFader.cs" />
      <Compile Include="Assets\Scripts\Gun\Bullet.cs" />
      <Compile Include="Assets\Scripts\Gun\GunController.cs" />
-     <Compile Include="Assets\Scripts\Main Components\AIManager.cs" />
      <Compile Include="Assets\Scripts\Main Components\AudioManager.cs" />
      <Compile Include="Assets\Scripts\Main Components\CameraController.cs" />
      <Compile Include="Assets\Scripts\Main Components\GameController.cs" />

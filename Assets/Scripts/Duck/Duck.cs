@@ -30,6 +30,9 @@ public class Duck : MonoBehaviour
 	
 	public void Duck_Hit(string object_name, Vector3 hitPoint)
 	{	
+		// Remove the duck from the wave
+		sc_AIManager.RemoveDuckFromWave(gameObject);
+		
 		// Add duck to graveyard
 		transform.parent = GraveYard.transform;
 		
@@ -153,19 +156,5 @@ public class Duck : MonoBehaviour
 			
 			yield return null;
 		}
-	}		
-	
-	void OnDisable()
-	{		
-		if (sc_GameController.GameState == GameController.GameStatus.QUIT)
-			return;
-		
-		sc_AIManager.RemoveDuckFromWave(gameObject);
-		
-		int childCount = transform.parent.childCount;
-			
-		if (childCount == 1 && InGroup)
-			Destroy(transform.parent.gameObject);
-	}
-		
+	}			
 }
