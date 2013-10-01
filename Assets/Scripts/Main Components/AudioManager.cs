@@ -57,7 +57,7 @@ public class AudioManager : MonoBehaviour
 	public void PlayAudioClip(int key)
 	{
 		if( soundDictionary.ContainsKey(key) && soundDictionary[key])
-			audio.PlayOneShot(soundDictionary[key], 0.5f);
+			audio.PlayOneShot(soundDictionary[key], 0.75f);
 	}
 	
 	public void ChangePitch(float gameSpeed)
