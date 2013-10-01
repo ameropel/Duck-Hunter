@@ -36,7 +36,7 @@ public class Bullet : MonoBehaviour
 	void Bullet_RayCast ()
 	{
 		RaycastHit hit;
-		Duck duck = null;
+		Bird bird = null;
 		bool hitObject = false;
 		
 		// Check to see if mouse hit collider object
@@ -52,17 +52,25 @@ public class Bullet : MonoBehaviour
 			// If the gameobject that has been hit does not contain a parent, ignore
 			else if (hit.collider.transform.parent)
 			{
-				// If the hit gameObjects parents name is duck
-				if (hit.collider.transform.parent.tag == "Duck")
+				// If the hit gameObjects parents name is bird
+				if (hit.collider.transform.parent.tag == "Bird")
 				{				
-					// Tell duck that it has been hit by a bullet
-					duck = hit.collider.transform.parent.GetComponent<Duck>();
-					duck.Duck_Hit(hit.collider.gameObject.name, hit.point);
+					// Tell bird that it has been hit by a bullet
+					bird = hit.collider.transform.parent.GetComponent<Bird>();
+					bird.Bird_Hit(hit.collider.gameObject.name, hit.point);
 					
 					// Hit point valued object
 					hitObject = true;
-					// Change score, hit duck
-					sc_GameScore.ChangeScore(GameScore.ObjectHit.DUCK);
+					
+					// Determine scoring on what bird player hit
+					Bird.BirdType birdHit = bird.TypeofBird;
+					
+					// Hit Duck
+					if (birdHit == Bird.BirdType.DUCK)
+						sc_GameScore.ChangeScore(GameScore.ObjectHit.DUCK);
+					// Hit Goose
+					else if (birdHit == Bird.BirdType.GOOSE)
+						sc_GameScore.ChangeScore(GameScore.ObjectHit.GOOSE);
 					
 					// Destroy bullet, its duty has been fulfilled
 					Destroy(gameObject);

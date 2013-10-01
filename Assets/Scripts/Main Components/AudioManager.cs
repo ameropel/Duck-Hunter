@@ -11,6 +11,7 @@ public class AudioManager : MonoBehaviour
 	[SerializeField] AudioClip Shotgun_Out_Of_Ammo;
 	[SerializeField] AudioClip Duck_Call_1;
 	[SerializeField] AudioClip Duck_Call_2;
+	[SerializeField] AudioClip Goose_Call_1;
 	#endregion
 	
 	AudioSource audioSource;
@@ -28,7 +29,10 @@ public class AudioManager : MonoBehaviour
 		
 		// Duck sounds
 		DUCK_CALL_1,
-		DUCK_CALL_2
+		DUCK_CALL_2,
+		
+		// Geese sounds
+		GOOSE_CALL_1
 	}
 	
 	void Awake()
@@ -43,9 +47,11 @@ public class AudioManager : MonoBehaviour
 		soundDictionary.Add((int)SoundClips.SHOTGUN_RELOAD, Shotgun_Reload);
 		soundDictionary.Add((int)SoundClips.SHOTGUN_RELOAD_FINAL, Shotgun_Reload_Final);
 		soundDictionary.Add((int)SoundClips.SHOTGUN_OUT_OF_AMMO, Shotgun_Out_Of_Ammo);
-		//Duck
+		// Duck
 		soundDictionary.Add((int)SoundClips.DUCK_CALL_1, Duck_Call_1);
 		soundDictionary.Add((int)SoundClips.DUCK_CALL_2, Duck_Call_2);
+		// Goose
+		soundDictionary.Add((int)SoundClips.GOOSE_CALL_1, Goose_Call_1);
 	}
 	
 	void Start()

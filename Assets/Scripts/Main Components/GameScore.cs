@@ -10,14 +10,15 @@ public class GameScore : MonoBehaviour
 	[SerializeField] GUIText[] ComboText;	// Combo text
 	
 	int duck_score = 1000;		// Value given when hitting a duck
-	int miss_shot_score = 10;	// Value given when missing a shot
+	int goose_score = -1000;	// Value given when hitting a goose
+	int miss_shot_score = -10;	// Value given when missing a shot
 	int combo_value = 1;		// Value multiplied to positive points
 	float combo_timer = 3.0f;	// Time till combo resets to zero
 	
 	[HideInInspector] public int PlayerScore = 0;	// Score player currently has
 	
 	[HideInInspector] public enum ObjectHit
-	{	MISS = 0, DUCK 	}
+	{	MISS = 0, DUCK, GOOSE 	}
 	
 	void Start()
 	{
@@ -39,7 +40,7 @@ public class GameScore : MonoBehaviour
 				combo_value = 1;				// Reset combo
 				Edit_ComboText();
 				StopCoroutine( "ComboTimer" );	// If timer is running stop combo timer
-				PlayerScore -= miss_shot_score;	// Deduct miss shot score to overall score
+				PlayerScore += miss_shot_score;	// Deduct miss shot score from overall score
 				break;	
 			// Player shot and hit a duck
 			case ObjectHit.DUCK:
@@ -49,6 +50,13 @@ public class GameScore : MonoBehaviour
 				Edit_ComboText();
 				combo_value++;		// Increase combo value by 1
 				break;
+			// Player shot and hit a goose
+			case ObjectHit.GOOSE:
+				combo_value = 1;				// Reset combo
+				Edit_ComboText();
+				StopCoroutine( "ComboTimer" );	// If timer is running stop combo timer
+				PlayerScore += goose_score;		// Deduct goose_score from overall score
+				break;	
 		}
 		
 		Edit_ScoreText();

@@ -9,18 +9,17 @@ public class AIManager : MonoBehaviour
 	[SerializeField] GameController sc_GameController;
 	[SerializeField] GameTimer 		sc_GameTimer;
 	
-	[SerializeField] Transform DuckWave;
+	[SerializeField] Transform BirdWave;
 	GameObject GraveYard;
-	GameObject duckWave_One;
-	GameObject duckWave_Two;
-	GameObject duckWave_Three;
+	GameObject duckWave_One, duckWave_Two, duckWave_Three;
+	GameObject gooseWave_One;
 	float timeBetweenWaves = 15;	// Time to launch a new wave
-	float aiPath_Duration = 40;		// Time it takes duck to reach point a to b
+	float aiPath_Duration = 40;		// Time it takes bird to reach point a to b
 	
-	List<GameObject> DuckWaveTypes = new List<GameObject>();							// Holds duck types
-	[HideInInspector] public List<GameObject> DuckWaves = new List<GameObject>();		// Holds duck waves
-	[HideInInspector] public List<GameObject> AI_Paths = new List<GameObject>();		// Holds ai paths ducks can take
-	[HideInInspector] public List<GameObject> AI_PathsUsed = new List<GameObject>();	// Holds ai paths ducks are using
+	List<GameObject> BirdWaveTypes = new List<GameObject>();							// Holds bird types
+	[HideInInspector] public List<GameObject> BirdWaves = new List<GameObject>();		// Holds bird waves
+	[HideInInspector] public List<GameObject> AI_Paths = new List<GameObject>();		// Holds ai paths birds can take
+	[HideInInspector] public List<GameObject> AI_PathsUsed = new List<GameObject>();	// Holds ai paths birds are using
 	
 	void Start()
 	{
@@ -28,17 +27,20 @@ public class AIManager : MonoBehaviour
 		GraveYard = GameObject.Find("GraveYard");
 		
 		// Get all duck waves
-		duckWave_One = Resources.Load("Prefabs/Targets/Ducks/duckWave_One") as GameObject;
-		duckWave_Two = Resources.Load("Prefabs/Targets/Ducks/duckWave_Two") as GameObject;
-		duckWave_Three = Resources.Load("Prefabs/Targets/Ducks/duckWave_Three") as GameObject;
+		duckWave_One = Resources.Load("Prefabs/Targets/Birds/Ducks/duckWave_One") as GameObject;
+		duckWave_Two = Resources.Load("Prefabs/Targets/Birds/Ducks/duckWave_Two") as GameObject;
+		duckWave_Three = Resources.Load("Prefabs/Targets/Birds/Ducks/duckWave_Three") as GameObject;
+		gooseWave_One = Resources.Load("Prefabs/Targets/Birds/Geese/gooseWave_One") as GameObject;
 		
-		// Get all possible ai paths ducks can take
-		Object[] All_AI_Paths = Resources.LoadAll("Prefabs/AI/Duck Paths", typeof(GameObject));
+		// Get all possible ai paths birds can take
+		Object[] All_AI_Paths = Resources.LoadAll("Prefabs/AI/Paths", typeof(GameObject));
 
 		// Get all duckwaves
-		DuckWaveTypes.Add(duckWave_One);
-		DuckWaveTypes.Add(duckWave_Two);
-		DuckWaveTypes.Add(duckWave_Three);
+		BirdWaveTypes.Add(duckWave_One);
+		BirdWaveTypes.Add(duckWave_Two);
+		BirdWaveTypes.Add(duckWave_Three);
+		// Get all other birds
+		BirdWaveTypes.Add(gooseWave_One);
 		
 		// Get all ai paths ducks can follow	
 		for (int i=0; i < All_AI_Paths.Length; i++)
@@ -57,7 +59,7 @@ public class AIManager : MonoBehaviour
 				yield return null;
 		
 		// Create two waves
-		CreateDuckWave(2);
+		CreateBirdWave(2);
 		
 		// Calculate time between each wave. If game is loading or paused
 		// do not calculate the time
@@ -79,20 +81,20 @@ public class AIManager : MonoBehaviour
 	}
 	
 	
-	void CreateDuckWave(int waveCount)
+	void CreateBirdWave(int waveCount)
 	{		
 		for (int i = 0; i < waveCount; i++)
 		{	
 			// Instantiate and add wave to list
-			GameObject wave = Instantiate( DuckWaveTypes[PickRandom_DuckWave()], DuckWave.position, Quaternion.identity) as GameObject;
-			wave.transform.parent = DuckWave;
-			SetupDuckWave(wave, PickRandom_AIPath());
-			DuckWaves.Add(wave);
+			GameObject wave = Instantiate( BirdWaveTypes[PickRandom_BirdWave()], BirdWave.position, Quaternion.identity) as GameObject;
+			wave.transform.parent = BirdWave;
+			SetupBirdWave(wave, PickRandom_AIPath());
+			BirdWaves.Add(wave);
 			wave.SetActive(true);
 		}
 	}
 	
-	void SetupDuckWave(GameObject wave, GameObject path)
+	void SetupBirdWave(GameObject wave, GameObject path)
 	{
 		// Attach spline path and duration time
 		SplineController   spline = wave.GetComponent<SplineController>();
@@ -104,48 +106,48 @@ public class AIManager : MonoBehaviour
 		interp.sc_GameController = sc_GameController;
 		interp.sc_GameTimer      = sc_GameTimer;
 		
-		// Get duck in each wave and attach components
+		// Get bird in each wave and attach components
 		foreach(Transform child in wave.transform)
 		{
-			Duck duck = child.GetComponent<Duck>();
-			duck.sc_AIManager      = this;
-			duck.sc_AudioManager   = sc_AudioManager;
-			duck.sc_GameController = sc_GameController;
-			duck.GraveYard = GraveYard;
+			Bird bird = child.GetComponent<Bird>();
+			bird.sc_AIManager      = this;
+			bird.sc_AudioManager   = sc_AudioManager;
+			bird.sc_GameController = sc_GameController;
+			bird.GraveYard = GraveYard;
 		}
 	}
 	
-	public void RemoveDuckFromWave( GameObject duck )
+	public void RemoveBirdFromWave( GameObject bird )
 	{
-		Transform wave = duck.transform.parent;
+		Transform wave = bird.transform.parent;
 		
 		int childCount = wave.childCount;
 		
-		// Create another wave if it is the last duck in wave
+		// Create another wave if it is the last bird in wave
 		if (childCount == 1)
 		{
-			CreateDuckWave(1);
+			CreateBirdWave(1);
 			
 			// Re-add ai path if not before
 			if (!wave.GetComponent<SplineInterpolator>().ReachedQuaterTime)
 				Add_AIPath(wave.GetComponent<SplineController>().SplineRoot);
 			
 			// Remove wave frome list
-			DuckWaves.Remove(wave.gameObject);
+			BirdWaves.Remove(wave.gameObject);
 			Destroy(wave.gameObject);
 		}
 	}	
 	
-	int PickRandom_DuckWave()
+	int PickRandom_BirdWave()
 	{
-		return Random.Range(0, DuckWaveTypes.Count);
+		return Random.Range(0, BirdWaveTypes.Count);
 	}
 	
 	GameObject PickRandom_AIPath()
 	{
 		// Find a new path from selected list
 		GameObject path = AI_Paths[Random.Range(0, AI_Paths.Count)];
-		// Duplicate that path and set new ducks paths to it
+		// Duplicate that path and set new birds paths to it
 		GameObject newPath = Instantiate(path, Vector3.zero, Quaternion.identity) as GameObject;
 		newPath.transform.parent = transform;
 		
@@ -158,12 +160,12 @@ public class AIManager : MonoBehaviour
 	
 	public void Add_AIPath(GameObject path)
 	{
-		int pathId = path.GetComponent<ai_DuckPath>().Path_Id;
+		int pathId = path.GetComponent<ai_BirdPath>().Path_Id;
 		
 		bool addPath = true;
 		for (int i=0; i < AI_Paths.Count; i++)
 		{
-			if (AI_Paths[i].GetComponent<ai_DuckPath>().Path_Id == pathId)
+			if (AI_Paths[i].GetComponent<ai_BirdPath>().Path_Id == pathId)
 			{
 				addPath = false;
 				break;
@@ -174,7 +176,7 @@ public class AIManager : MonoBehaviour
 		{
 			for (int i=0; i < AI_PathsUsed.Count; i++)
 			{
-				if (AI_PathsUsed[i].GetComponent<ai_DuckPath>().Path_Id == pathId)
+				if (AI_PathsUsed[i].GetComponent<ai_BirdPath>().Path_Id == pathId)
 				{
 					ScriptHelper.DebugString("Readded path name: " + path.name);
 					AI_Paths.Add(AI_PathsUsed[i]);

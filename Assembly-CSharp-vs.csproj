@@ -46,7 +46,8 @@
   <ItemGroup>
      <Compile Include="Assets\Art\Textures\Scenery\Water\Scripts\WaterSimple.cs" />
      <Compile Include="Assets\Scripts\AI\AIManager.cs" />
-     <Compile Include="Assets\Scripts\AI\ai_DuckPath.cs" />
+     <Compile Include="Assets\Scripts\AI\Birds\Bird.cs" />
+     <Compile Include="Assets\Scripts\AI\ai_BirdPath.cs" />
      <Compile Include="Assets\Scripts\Android\Android_Accelerometer.cs" />
      <Compile Include="Assets\Scripts\Android\Android_Compass.cs" />
      <Compile Include="Assets\Scripts\Buttons\Holding Buttons\btn_hold_Zoom_Weapon.cs" />
@@ -62,7 +63,6 @@
      <Compile Include="Assets\Scripts\Buttons\Standard Button\btn_Start_Game.cs" />
      <Compile Include="Assets\Scripts\Debug\Debugger.cs" />
      <Compile Include="Assets\Scripts\Debug\FPS.cs" />
-     <Compile Include="Assets\Scripts\Duck\Duck.cs" />
      <Compile Include="Assets\Scripts\Game Components\DestroyParticle.cs" />
      <Compile Include="Assets\Scripts\Game Components\GameCountDown.cs" />
      <Compile Include="Assets\Scripts\Game Components\GameFader.cs" />
