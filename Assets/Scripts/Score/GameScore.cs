@@ -6,8 +6,9 @@ public class GameScore : MonoBehaviour
 	// Script holder
 	[SerializeField] GameTimer sc_GameTimer;
 	
-	[SerializeField] GUIText[] ScoreText;	// Score text
-	[SerializeField] GUIText[] ComboText;	// Combo text
+	[SerializeField] GameObject ScoreText;	// Score text
+	[SerializeField] GameObject ComboText;	// Combo text
+	[SerializeField] GameObject DeductText;	// Prefab to deduct points
 	
 	int duck_score = 1000;		// Value given when hitting a duck
 	int goose_score = -1000;	// Value given when hitting a goose
@@ -23,12 +24,12 @@ public class GameScore : MonoBehaviour
 	void Start()
 	{
 		// Change gameplay text for score
-		foreach(GUIText text in ScoreText)
-			text.text = PlayerScore.ToString();	
+		foreach(Transform child in ScoreText.transform)
+			child.guiText.text = PlayerScore.ToString();	
 		
 		// Change gameplay text for combo
-		foreach(GUIText text in ComboText)
-			text.text = "";
+		foreach(Transform child in ComboText.transform)
+			child.guiText.text = "";
 	}
 	
 	public void ChangeScore(ObjectHit hit)
@@ -37,10 +38,7 @@ public class GameScore : MonoBehaviour
 		{
 			// Player shot and missed target
 			case ObjectHit.MISS:
-				combo_value = 1;				// Reset combo
-				Edit_ComboText();
-				StopCoroutine( "ComboTimer" );	// If timer is running stop combo timer
-				PlayerScore += miss_shot_score;	// Deduct miss shot score from overall score
+				DeductPoints(miss_shot_score);
 				break;	
 			// Player shot and hit a duck
 			case ObjectHit.DUCK:
@@ -52,33 +50,55 @@ public class GameScore : MonoBehaviour
 				break;
 			// Player shot and hit a goose
 			case ObjectHit.GOOSE:
-				combo_value = 1;				// Reset combo
-				Edit_ComboText();
-				StopCoroutine( "ComboTimer" );	// If timer is running stop combo timer
-				PlayerScore += goose_score;		// Deduct goose_score from overall score
+				DeductPoints(goose_score);
 				break;	
 		}
 		
 		Edit_ScoreText();
 	}
 	
+	void DeductPoints(int deduction)
+	{
+		combo_value = 1;				// Reset combo
+		Edit_ComboText();
+		StopCoroutine( "ComboTimer" );	// If timer is running stop combo timer
+		PlayerScore += deduction;		// Deduct points from overall score
+		Display_Deduction(deduction);
+	}
+	
+	void Display_Deduction(int deduction)
+	{
+		// Instantiate deduction display
+		GameObject points = Instantiate(DeductText) as GameObject;
+		
+		// Change guiText for deduction
+		foreach(Transform child in points.transform)
+			child.guiText.text = deduction.ToString();
+		
+		// Add points to hud gameObject so scene looks less messy
+		points.transform.parent = ComboText.transform.parent;
+		
+		// Start animation process
+		points.SetActive(true);
+	}
+	
 	void Edit_ComboText()
 	{
 		// Change gameplay text for combo
-		foreach(GUIText text in ComboText)
+		foreach(Transform child in ComboText.transform)
 		{
 			if (combo_value == 1)
-				text.text = "";
+				child.guiText.text = "";
 			else
-				text.text = ("x" + combo_value).ToString();
+				child.guiText.text = ("x" + combo_value).ToString();
 		}
 	}
 	
 	void Edit_ScoreText()
 	{
 		// Change gameplay text for score
-		foreach(GUIText text in ScoreText)
-			text.text = PlayerScore.ToString();	
+		foreach(Transform child in ScoreText.transform)
+			child.guiText.text = PlayerScore.ToString();	
 	}
 	
 	IEnumerator ComboTimer()

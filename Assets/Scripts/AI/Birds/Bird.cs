@@ -46,9 +46,9 @@ public class Bird : MonoBehaviour
 	}
 	
 	public void Bird_Hit(string object_name, Vector3 hitPoint)
-	{	
-		// Remove the bird from the wave
-		sc_AIManager.RemoveBirdFromWave(gameObject);
+	{			
+		// Store the wave gameobject before giveing bird a new parent
+		GameObject wave = transform.parent.gameObject;
 		
 		// Add bird to graveyard
 		transform.parent = GraveYard.transform;
@@ -59,12 +59,12 @@ public class Bird : MonoBehaviour
 		// Turn on birds gravity so it falls out of the sky
 		rigidbody.useGravity = true;
 		
+		// Turn death animation on
+		gameObject.animation.CrossFade(anim_DeathFly.name);
+		
 		// Rotate bird where bullet was hit
 		rigidbody.AddTorque(hitPoint * death_speed);
 
-		// Turn death animation on
-		gameObject.animation.CrossFade(anim_DeathFly.name);
-				
 		// Remove all body part colliders
 		Destroy(Head.collider);
 		Destroy(Body.collider);
@@ -76,6 +76,9 @@ public class Bird : MonoBehaviour
 		
 		// Apply a death force
 		rigidbody.AddForce( transform.right * death_speed);
+		
+		// Remove the bird from the wave
+		sc_AIManager.RemoveBirdFromWave(wave);
 	}
 	
 	void Update()

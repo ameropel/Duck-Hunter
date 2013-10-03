@@ -71,10 +71,11 @@
      <Compile Include="Assets\Scripts\Main Components\AudioManager.cs" />
      <Compile Include="Assets\Scripts\Main Components\CameraController.cs" />
      <Compile Include="Assets\Scripts\Main Components\GameController.cs" />
-     <Compile Include="Assets\Scripts\Main Components\GameScore.cs" />
      <Compile Include="Assets\Scripts\Main Components\GameTimer.cs" />
      <Compile Include="Assets\Scripts\Main Components\InputManager.cs" />
      <Compile Include="Assets\Scripts\Main Components\ScriptHelper.cs" />
+     <Compile Include="Assets\Scripts\Score\DeductPoints.cs" />
+     <Compile Include="Assets\Scripts\Score\GameScore.cs" />
      <Compile Include="Assets\Scripts\Splines\MathUtils.cs" />
      <Compile Include="Assets\Scripts\Splines\SplineController.cs" />
      <Compile Include="Assets\Scripts\Splines\SplineInterpolator.cs" />
