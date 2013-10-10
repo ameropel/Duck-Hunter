@@ -6,9 +6,9 @@ public class GameScore : MonoBehaviour
 	// Script holder
 	[SerializeField] GameTimer sc_GameTimer;
 	
-	[SerializeField] GameObject ScoreText;	// Score text
-	[SerializeField] GameObject ComboText;	// Combo text
-	[SerializeField] GameObject DeductText;	// Prefab to deduct points
+	[SerializeField] TextMesh ScoreText;	// Score text
+	[SerializeField] TextMesh ComboText;	// Combo text
+	[SerializeField] TextMesh DeductText;	// Prefab to deduct points
 	
 	int duck_score = 1000;		// Value given when hitting a duck
 	int goose_score = -1000;	// Value given when hitting a goose
@@ -24,12 +24,10 @@ public class GameScore : MonoBehaviour
 	void Start()
 	{
 		// Change gameplay text for score
-		foreach(Transform child in ScoreText.transform)
-			child.guiText.text = PlayerScore.ToString();	
+		ScoreText.text = PlayerScore.ToString();	
 		
 		// Change gameplay text for combo
-		foreach(Transform child in ComboText.transform)
-			child.guiText.text = "";
+		ComboText.text = "";
 	}
 	
 	public void ChangeScore(ObjectHit hit)
@@ -69,36 +67,28 @@ public class GameScore : MonoBehaviour
 	void Display_Deduction(int deduction)
 	{
 		// Instantiate deduction display
-		GameObject points = Instantiate(DeductText) as GameObject;
+		TextMesh points = Instantiate(DeductText) as TextMesh;
 		
 		// Change guiText for deduction
-		foreach(Transform child in points.transform)
-			child.guiText.text = deduction.ToString();
+		points.text = deduction.ToString();
 		
 		// Add points to hud gameObject so scene looks less messy
 		points.transform.parent = ComboText.transform.parent;
-		
-		// Start animation process
-		points.SetActive(true);
 	}
 	
 	void Edit_ComboText()
 	{
 		// Change gameplay text for combo
-		foreach(Transform child in ComboText.transform)
-		{
-			if (combo_value == 1)
-				child.guiText.text = "";
-			else
-				child.guiText.text = ("x" + combo_value).ToString();
-		}
+		if (combo_value == 1)
+			ComboText.text = "";
+		else
+			ComboText.text = ("x" + combo_value).ToString();
 	}
 	
 	void Edit_ScoreText()
 	{
 		// Change gameplay text for score
-		foreach(Transform child in ScoreText.transform)
-			child.guiText.text = PlayerScore.ToString();	
+		ScoreText.text = PlayerScore.ToString();	
 	}
 	
 	IEnumerator ComboTimer()
@@ -115,5 +105,4 @@ public class GameScore : MonoBehaviour
 		combo_value = 1;
 		Edit_ComboText();
 	}
-	
 }

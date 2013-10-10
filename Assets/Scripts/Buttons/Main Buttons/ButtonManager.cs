@@ -34,7 +34,7 @@ public class ButtonManager : MonoBehaviour
 				
 				// Check to see if touch hit collider object
 				if (Physics.Raycast(Camera.main.ScreenPointToRay(touchPos), out hit))
-				{
+				{	
 					// Add button
 					button = hit.collider.GetComponent<Button>();
 					
@@ -104,7 +104,7 @@ public class ButtonManager : MonoBehaviour
 		
 		// Check to see if mouse hit collider object
 		if (Physics.Raycast(Camera.main.ScreenPointToRay(mousePos), out hit))
-		{
+		{			
 			// Add button
 			button = hit.collider.GetComponent<Button>();
 			

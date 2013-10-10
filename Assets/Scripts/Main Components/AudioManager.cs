@@ -14,6 +14,18 @@ public class AudioManager : MonoBehaviour
 	[SerializeField] AudioClip Goose_Call_1;
 	#endregion
 	
+	private bool _volumeMute = false;
+	[HideInInspector] public bool VolumeMute
+	{
+		get { return _volumeMute; }
+		
+		set
+		{
+			_volumeMute = value;
+			audioSource.mute = _volumeMute;
+		}
+	}
+	
 	AudioSource audioSource;
 	float PitchDecrement = 0.3f;	// Every time gameSpeed is increased by 1, pitch gets reduced by this value 
 	

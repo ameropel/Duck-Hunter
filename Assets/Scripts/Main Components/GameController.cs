@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using PlayerPrefs = PreviewLabs.PlayerPrefs;
 
 public class GameController : MonoBehaviour 
 {	
@@ -8,11 +9,16 @@ public class GameController : MonoBehaviour
 	Android_Compass	sc_Android_Compass;
 	#endif
 	[SerializeField] GameCountDown sc_GameCountDown;
-	[SerializeField] GameObject Duck;
+	
+	[SerializeField] GameObject PauseMenu;
 	
 	[HideInInspector] public enum GameStatus
-	{	LOADING = 0, PLAYING, PAUSED, QUIT	};
+	{	LOADING = 0, PLAYING, PAUSED, QUIT, GAMEOVER	};
 	[HideInInspector] public GameStatus GameState;
+	[HideInInspector] public delegate void PauseGameplay();
+	[HideInInspector] public delegate void UnPauseGameplay();
+	[HideInInspector] public static event PauseGameplay Gameplay_Pause;
+	[HideInInspector] public static event UnPauseGameplay Gameplay_UnPause;
 	
 	void Awake()
 	{
@@ -54,8 +60,35 @@ public class GameController : MonoBehaviour
 		#endif
 	}
 	
+	#if UNITY_ANDROID && !UNITY_EDITOR
+	// When App is interrupted, ex. Home button
+	void OnApplicationPause()
+	{
+		PauseGame(true);
+	}
+	
+	#endif
 	void OnApplicationQuit()
 	{
 		GameState = GameStatus.QUIT;
+		PlayerPrefs.Flush();
+	}
+	
+	public void PauseGame(bool pauseGame)
+	{
+		if (pauseGame)
+		{
+			GameState = GameStatus.PAUSED;
+			if (Gameplay_Pause != null)
+				Gameplay_Pause();
+		}
+		else
+		{
+			GameState = GameStatus.PLAYING;
+			if (Gameplay_UnPause != null)
+				Gameplay_UnPause();
+		}
+		
+		PauseMenu.SetActive(pauseGame);
 	}
 }

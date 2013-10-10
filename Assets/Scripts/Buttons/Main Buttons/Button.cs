@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Button : MonoBehaviour 
 {
-	public bool OneTimeUse;
+	public bool Resize;
 	
 	
 	[HideInInspector] public Collider buttonCollider;
@@ -19,11 +19,15 @@ public class Button : MonoBehaviour
 		// Attach gameobjects collider
 		buttonCollider = gameObject.collider;
 		
-		// Get camera for hud
+		
 		Camera _camera = Camera.main;	
 		
-		// Scale button to screen ratio
-		transform.position = ScriptHelper.ScaleToViewport(_camera, 1, transform.position);
+		// Get camera for hud
+		if (Resize)
+		{
+			// Scale button to screen ratio
+			transform.position = ScriptHelper.ScaleToViewport(_camera, 1, transform.position);
+		}
 		
 		// Create click scale
 		currentScale = gameObject.transform.localScale;
@@ -34,10 +38,6 @@ public class Button : MonoBehaviour
 	
 	public virtual void PerfromTransition()
 	{	
-		// If button can only be used once check if button was already hit
-		// if hit skip the rest of the function
-		if (OneTimeUse)
-			buttonCollider.enabled = false;  // Button was used, deactivate collider
 	}
 	
 	public virtual void PerformAfterClick()

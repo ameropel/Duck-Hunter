@@ -3,6 +3,7 @@ using System.Collections;
 
 public class DeductPoints : MonoBehaviour 
 {
+	[SerializeField] TextMesh PointsText;
 	private float fade_time = 1.0f;
 	
 	void Start()
@@ -16,17 +17,12 @@ public class DeductPoints : MonoBehaviour
 	{
 		float alpha = 0;
 		float time = 0;
+		Color c = PointsText.renderer.material.color;
 		while (time < 1)
 		{
 			time += Time.deltaTime / fade_time;
-			
 			alpha = Mathf.Lerp(1,0,time);
-			
-			foreach(Transform child in transform)
-			{
-				Color c = child.guiText.material.color;
-				child.guiText.material.color = new Color(c.r, c.g, c.b, alpha);
-			}
+			PointsText.renderer.material.color = new Color(c.r, c.g, c.b, alpha);
 			yield return null;
 		}
 		

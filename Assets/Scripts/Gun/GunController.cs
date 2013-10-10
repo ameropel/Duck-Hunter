@@ -6,19 +6,16 @@ public class GunController : MonoBehaviour
 	#region Script Variables
 	
 	// Scripts
-	[SerializeField] AudioManager sc_AudioManager;
-	[SerializeField] GameScore    sc_GameScore;
-	[SerializeField] GameTimer    sc_GameTimer;
+	[SerializeField] AudioManager   sc_AudioManager;
+	[SerializeField] GameController sc_GameController;
+	[SerializeField] GameScore      sc_GameScore;
+	[SerializeField] GameTimer      sc_GameTimer;
 	
 	// Screen Resolution
-	[HideInInspector] public float screen_footer_height;						// Footer height
-	Vector2 screen_ratio = new Vector2(1024, 600);	// Default screen size
+	[HideInInspector] public float screen_footer_height;		// Footer height
 	
 	// Application Text
-	[SerializeField] GUIText[] text_reload;
-	[SerializeField] GUIText[] text_ammo;
-	private int reload_text_size = 50;
-	private int ammo_text_size = 40;
+	[SerializeField] TextMesh text_ammo;
 	
 	// Bullet
 	[SerializeField] GameObject BulletPrefab;
@@ -50,6 +47,7 @@ public class GunController : MonoBehaviour
 	public string weapon_zoom_in;
 	public string weapon_reload;
 	public string weapon_final_reload;
+	bool game_pause;
 	
 	#endregion
 	
@@ -60,21 +58,15 @@ public class GunController : MonoBehaviour
 		
 		// Height for footer
 		screen_footer_height = Screen.height - Screen.height/6;
-		
-		// Scale reload text to screen size
-		for (int i=0; i < text_reload.Length; i++)
-			text_reload[i].fontSize = (int)( (reload_text_size * Screen.height) / screen_ratio.y);
-		
-		// Scale ammo text to screen size
-		for (int i = 0; i < text_ammo.Length; i++)
-			text_ammo[i].fontSize = (int)( (ammo_text_size * Screen.height) / screen_ratio.y);
-		
+			
 		// Set current ammo to maximum ammuntion
 		current_ammo = maximum_ammo;
 		
 		// Set ammunition text to default value;
-		for (int i = 0; i < text_ammo.Length; i++)
-			text_ammo[i].text = (current_ammo.ToString() + "/" + maximum_ammo.ToString());
+		text_ammo.text = (current_ammo.ToString() + "/" + maximum_ammo.ToString());
+		
+		GameController.Gameplay_Pause += PauseAnimations;
+		GameController.Gameplay_UnPause += UnPauseAnimations;
 	}
 	
 	void Update()
@@ -83,6 +75,22 @@ public class GunController : MonoBehaviour
 		EditorInput();
 		#endif
 		Weapon_Zoom_In(Zoom_In);
+	}
+	
+	void PauseAnimations()
+	{
+		game_pause = true;
+		
+		foreach (AnimationState state in animation)
+			state.speed = 0.0f;
+	}
+	
+	void UnPauseAnimations()
+	{
+		game_pause = false;
+		
+		foreach (AnimationState state in animation)
+			state.speed = 1.0f;
 	}
 	
 	void EditorInput()
@@ -102,6 +110,10 @@ public class GunController : MonoBehaviour
 	#region Fire Weapon
 	public void FireShotgun()
 	{
+		// Do nothing if game paused
+		if (sc_GameController.GameState == GameController.GameStatus.PAUSED)
+			return;
+		
 		// User pressed trigger
 		user_fired_weapon = true;
 		
@@ -167,10 +179,16 @@ public class GunController : MonoBehaviour
 		float time = 0;
 		while (time < 1)
 		{
-			time += sc_GameTimer.Game_deltaTime / time_between_no_ammo;
-			yield return null;
+			// Do nothing if game paused
+			if (sc_GameController.GameState == GameController.GameStatus.PAUSED)
+				yield return null;
+			else
+			{
+				time += sc_GameTimer.Game_deltaTime / time_between_no_ammo;
+				yield return null;
+			}
 		}
-		
+			
 		// Unlock gun
 		no_ammuntion = false;
 	}
@@ -196,6 +214,10 @@ public class GunController : MonoBehaviour
 	#region Reload Weapon
 	public void ReloadWeapon ()
 	{
+		// Do nothing if game paused
+		if (sc_GameController.GameState == GameController.GameStatus.PAUSED)
+			return;
+		
 		// if not reloading and ammo is not maxed... reload
 		if (!reloading_weapon &&
 			current_ammo != maximum_ammo)
@@ -226,10 +248,16 @@ public class GunController : MonoBehaviour
 			float time = 0;
 			while (time < 1)
 			{
-				time += sc_GameTimer.Game_deltaTime / time_between_reload;
-				yield return null;
+				// Do nothing if game paused
+				if (sc_GameController.GameState == GameController.GameStatus.PAUSED)
+					yield return null;
+				else
+				{
+					time += sc_GameTimer.Game_deltaTime / time_between_reload;
+					yield return null;
+				}
 			}
-			
+				
 			// Play shotgun reload audioclip
 			sc_AudioManager.PlayAudioClip((int)AudioManager.SoundClips.SHOTGUN_RELOAD);
 			
@@ -258,9 +286,15 @@ public class GunController : MonoBehaviour
 		// Time till next reload clip
 		float time = 0;
 		while (time < 1)
-		{
-			time += sc_GameTimer.Game_deltaTime / time_between_reload;
-			yield return null;
+		{	
+			// Do nothing if game paused
+			if (sc_GameController.GameState == GameController.GameStatus.PAUSED)
+				yield return null;
+			else
+			{
+				time += sc_GameTimer.Game_deltaTime / time_between_reload;
+				yield return null;
+			}
 		}
 		
 		// Play reload pump animation
@@ -273,8 +307,14 @@ public class GunController : MonoBehaviour
 		time = 0;
 		while (time < 1)
 		{
-			time += sc_GameTimer.Game_deltaTime / time_final_reload;
-			yield return null;
+			// Do nothing if game paused
+			if (sc_GameController.GameState == GameController.GameStatus.PAUSED)
+				yield return null;
+			else
+			{
+				time += sc_GameTimer.Game_deltaTime / time_final_reload;
+				yield return null;
+			}
 		}
 		
 		// Unlock gun so can shoot
@@ -284,14 +324,13 @@ public class GunController : MonoBehaviour
 	
 	void UpdateAmmunitionText()
 	{
-		for (int i = 0; i < text_ammo.Length; i++)
-			text_ammo[i].text = (current_ammo.ToString() + "/" + maximum_ammo.ToString());
+		text_ammo.text = (current_ammo.ToString() + "/" + maximum_ammo.ToString());
 	}
 	
 	void Weapon_Zoom_In(bool zoom_in)
-	{
+	{	
 		// If weapon is reloading user cannot zoom in 
-		if (reloading_weapon)
+		if (reloading_weapon || game_pause)
 			return;
 		
 		if (zoom_in)

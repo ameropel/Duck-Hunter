@@ -43,6 +43,8 @@ public class Bird : MonoBehaviour
 		Body = transform.FindChild("Body").gameObject;
 		Right_Wing = transform.FindChild("Right_Wing").gameObject;
 		Left_Wing = transform.FindChild("Left_Wing").gameObject;
+		
+		
 	}
 	
 	public void Bird_Hit(string object_name, Vector3 hitPoint)
@@ -84,7 +86,19 @@ public class Bird : MonoBehaviour
 	void Update()
 	{
 		DetectBoundaries();
+		
+		if (sc_GameController.GameState == GameController.GameStatus.PAUSED)
+		{
+			foreach (AnimationState state in animation)
+				state.speed = 0.0f;
+		}
+		else
+		{
+			foreach (AnimationState state in animation)
+				state.speed = 1.0f;
+		}
 	}
+	
 	
 	void OnCollisionEnter( Collision hit)
 	{

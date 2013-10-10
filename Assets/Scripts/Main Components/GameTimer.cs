@@ -6,13 +6,14 @@ public class GameTimer : MonoBehaviour
 	// Script Holder
 	[SerializeField] AudioManager   sc_AudioManager;
 	[SerializeField] GameController sc_GameController;
+	[SerializeField] GameOver       sc_GameOver;
 	
-	[SerializeField] GUIText[] TimerText;			// Countdown text
+	[SerializeField] TextMesh TimerText;			// Countdown text
 	[HideInInspector] public float CountDownTimer;	// Countdown clock for game over
 	[HideInInspector] public bool  GameTime_Ended;	// Boolean used if countdown timer reached zero
 	[HideInInspector] public float Game_deltaTime;	// GameTime, used for any even dealing with time.
 	[HideInInspector] public float GameSpeed = 1;	// Game speed. If greater than 1 game speed is reduced.
-	const float MAX_GAMEPLAY_TIME = 300;			// Time is in second, default is 300 (5 minutes) 
+	[HideInInspector] public const float MAX_GAMEPLAY_TIME = 300;	// Time is in second, default is 300 (5 minutes) 
 	
 	void Start()
 	{
@@ -23,8 +24,7 @@ public class GameTimer : MonoBehaviour
 		Game_deltaTime = (Time.deltaTime / GameSpeed);
 		
 		// Change gameplay text
-		foreach(GUIText text in TimerText)
-			text.text = TimeConvert(CountDownTimer);
+		TimerText.text = TimeConvert(CountDownTimer);
 	}
 	
 	void Update()
@@ -53,8 +53,7 @@ public class GameTimer : MonoBehaviour
 		CountDownTimer -= Game_deltaTime;
 		
 		// Change gameplay text
-		foreach(GUIText text in TimerText)
-			text.text = TimeConvert(CountDownTimer);
+		TimerText.text = TimeConvert(CountDownTimer);
 	}
 	
 	string TimeConvert(float timer)
@@ -70,6 +69,8 @@ public class GameTimer : MonoBehaviour
 	{
 		// GameTimer has ended
 		GameTime_Ended = true;
+		sc_GameController.GameState = GameController.GameStatus.GAMEOVER;
+		sc_GameOver.GameOverTransition();
 	}
 	
 	public void SlowGameplayDown(float speed)

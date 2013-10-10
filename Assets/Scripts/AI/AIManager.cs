@@ -15,6 +15,7 @@ public class AIManager : MonoBehaviour
 	GameObject gooseWave_One;
 	float timeBetweenWaves = 15;	// Time to launch a new wave
 	float aiPath_Duration = 40;		// Time it takes bird to reach point a to b
+	float stopProducingWaves_time;	// Time that waves will stop being produced
 	
 	List<GameObject> BirdWaveTypes = new List<GameObject>();							// Holds bird types
 	[HideInInspector] public List<GameObject> BirdWaves = new List<GameObject>();		// Holds bird waves
@@ -34,7 +35,7 @@ public class AIManager : MonoBehaviour
 		
 		// Get all possible ai paths birds can take
 		Object[] All_AI_Paths = Resources.LoadAll("Prefabs/AI/Paths", typeof(GameObject));
-
+		
 		// Get all duckwaves
 		BirdWaveTypes.Add(duckWave_One);
 		BirdWaveTypes.Add(duckWave_Two);
@@ -48,6 +49,9 @@ public class AIManager : MonoBehaviour
 			GameObject path = All_AI_Paths[i] as GameObject;
 			AI_Paths.Add(path);
 		}
+		
+		// Setup time that waves will not be allowed to produce after
+		stopProducingWaves_time = aiPath_Duration/2;
 		
 		// Start timer		
 		StartCoroutine( WaveTimer() );
@@ -73,7 +77,8 @@ public class AIManager : MonoBehaviour
 			yield return null;	
 		}
 		
-		if (sc_GameTimer.CountDownTimer > aiPath_Duration)
+		// Want it to stop producing waves if timer is greater then this time
+		if (sc_GameTimer.CountDownTimer > stopProducingWaves_time)
 		{
 			// Restart wave timer
 			StartCoroutine( WaveTimer() );
