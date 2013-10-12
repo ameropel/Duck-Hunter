@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class btn_hold_Zoom_Weapon : MouseHold 
+public class btn_Hold_Zoom_Weapon : MouseHold 
 {
 	// Script holder
 	[SerializeField] GunController sc_GunController;

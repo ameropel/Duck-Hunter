@@ -5,7 +5,6 @@ public class Button : MonoBehaviour
 {
 	public bool Resize;
 	
-	
 	[HideInInspector] public Collider buttonCollider;
 	[HideInInspector] public bool canUseButton = true;
 	[HideInInspector] public bool isHoveringOver = false;

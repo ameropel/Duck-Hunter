@@ -162,4 +162,42 @@ public class CameraController : MonoBehaviour
 		// Set cameras position the lagged position
 		transform.rotation = ScriptHelper.ToQ(current_yaw, current_pitch, 0);
 	}	
+	
+	public void CameraRotate(float _pitch, float _yaw, float timeLength)
+	{
+		StartCoroutine( RotateCamera(_pitch, _yaw, timeLength) );
+	}
+	
+	IEnumerator RotateCamera(float _pitch, float _yaw, float timeLength)
+	{
+		float time = 0;
+		while(time < 1)
+		{
+			time += sc_GameTimer.Game_deltaTime / timeLength;
+			
+			// Save old camera position
+			old_pitch = current_pitch;
+			old_yaw   = current_yaw;
+			
+			// Change current position to laged position
+			current_pitch = Mathf.LerpAngle(old_pitch, _pitch, time);
+			current_yaw   = Mathf.LerpAngle(old_yaw, _yaw, time);
+				
+			// Set cameras position the lagged position
+			transform.rotation = ScriptHelper.ToQ(current_yaw, current_pitch, 0);
+			
+			yield return null;
+		}
+	}
+	
+	/*  Test sensitivity
+	void OnGUI()
+	{
+		camera_pitch_drag = GUI.VerticalSlider(new Rect(50, 150, 200, 200), camera_pitch_drag, .01f, .99f);
+		camera_yaw_drag = GUI.HorizontalSlider(new Rect(Screen.width/2 - 100, Screen.height - 50, 200, 200), camera_yaw_drag, .01f, .99f);
+		
+		GUI.Label(new Rect(50, 110, 100, 20), camera_pitch_drag.ToString());
+		GUI.Label(new Rect(Screen.width/2, Screen.height - 80, 100, 20), camera_yaw_drag.ToString());
+	}
+	*/
 }

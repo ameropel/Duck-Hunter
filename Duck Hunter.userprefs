@@ -1,8 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Main Components/GameTimer.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Main Components/GameController.cs">
     <Files>
-      <File FileName="Assets/Scripts/Main Components/GameTimer.cs" Line="16" Column="61" />
+      <File FileName="Assets/Scripts/Main Components/GameTimer.cs" Line="16" Column="62" />
+      <File FileName="Assets/Scripts/Score/HighScoreManager.cs" Line="123" Column="26" />
+      <File FileName="Assets/Scripts/Main Components/GameController.cs" Line="82" Column="41" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

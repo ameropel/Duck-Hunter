@@ -51,13 +51,14 @@
      <Compile Include="Assets\Scripts\AI\ai_BirdPath.cs" />
      <Compile Include="Assets\Scripts\Android\Android_Accelerometer.cs" />
      <Compile Include="Assets\Scripts\Android\Android_Compass.cs" />
-     <Compile Include="Assets\Scripts\Buttons\Holding Buttons\btn_hold_Zoom_Weapon.cs" />
+     <Compile Include="Assets\Scripts\Buttons\Holding Buttons\btn_Hold_Zoom_Weapon.cs" />
      <Compile Include="Assets\Scripts\Buttons\Main Buttons\Button.cs" />
      <Compile Include="Assets\Scripts\Buttons\Main Buttons\ButtonManager.cs" />
      <Compile Include="Assets\Scripts\Buttons\Main Buttons\MouseHold.cs" />
      <Compile Include="Assets\Scripts\Buttons\Main Buttons\Scroll.cs" />
      <Compile Include="Assets\Scripts\Buttons\Main Buttons\Slider.cs" />
      <Compile Include="Assets\Scripts\Buttons\Main Buttons\Toggle.cs" />
+     <Compile Include="Assets\Scripts\Buttons\Standard Button\btn_EnterInitials.cs" />
      <Compile Include="Assets\Scripts\Buttons\Standard Button\btn_Fire_Shotgun.cs" />
      <Compile Include="Assets\Scripts\Buttons\Standard Button\btn_LoadScene.cs" />
      <Compile Include="Assets\Scripts\Buttons\Standard Button\btn_Menu.cs" />

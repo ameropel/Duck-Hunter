@@ -8,6 +8,8 @@ public class HighScoreManager : MonoBehaviour
 	const int MAX_SCORES = 6;
 	public bool ResetToDefault;
 	
+	[HideInInspector] public bool isTextCompleted;
+	
 	[SerializeField] TextMesh[] UserNames  = new TextMesh[MAX_SCORES];
 	[SerializeField] TextMesh[] UserScores = new TextMesh[MAX_SCORES];
 	
@@ -38,12 +40,19 @@ public class HighScoreManager : MonoBehaviour
 	{
 		// Default List
 		// Set default scores and names		
-		DefaultSetup(0, 50000, "KAT");
+		/*DefaultSetup(0, 50000, "KAT");
 		DefaultSetup(1, 40000, "SHA");
 		DefaultSetup(2, 30000, "MAL");
 		DefaultSetup(3, 20000, "JON");
 		DefaultSetup(4, 10000, "LIL");
-		DefaultSetup(5, 5000,  "STA");
+		DefaultSetup(5, 5000,  "STA");*/
+		
+		DefaultSetup(0, 10000, "KAT");
+		DefaultSetup(1, 9000,  "SHA");
+		DefaultSetup(2, 8000,  "MAL");
+		DefaultSetup(3, 7000,  "JON");
+		DefaultSetup(4, 6000,  "LIL");
+		DefaultSetup(5, 3000,  "STA");
 		
 		Debug.Log("Default Names & Scores");
 	}
@@ -104,13 +113,14 @@ public class HighScoreManager : MonoBehaviour
 				break;
 		}
 		#else
-		name = "NAME";
-		
+		name = "NAME";	
 		#endif
 		
 		// Record name and score
 		PlayerPrefs.SetInt(("leader_score_" + recordIndex).ToString(), score);
 		PlayerPrefs.SetString(("leader_name_" + recordIndex).ToString(), name);
+		
+		isTextCompleted = true;
 		
 		yield return null;
 	}
@@ -123,7 +133,7 @@ public class HighScoreManager : MonoBehaviour
 		else return false;
 	}
 	
-	public void SaveScore()
+	public bool CheckScore()
 	{
 		int score = gameObject.GetComponent<GameScore>().PlayerScore;
 		
@@ -134,7 +144,13 @@ public class HighScoreManager : MonoBehaviour
 		}
 		
 		// If score does not beat last ignore rest
-		if (score < lb_scores[MAX_SCORES-1]) return;
+		if (score < lb_scores[MAX_SCORES-1]) return false;
+		else return true;
+	}
+	
+	public void AddPlayersName()
+	{
+		int score = gameObject.GetComponent<GameScore>().PlayerScore;
 		
 		for (int i=0; i < MAX_SCORES; i++)
 		{

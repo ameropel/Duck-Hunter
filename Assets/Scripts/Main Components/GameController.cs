@@ -17,8 +17,8 @@ public class GameController : MonoBehaviour
 	[HideInInspector] public GameStatus GameState;
 	[HideInInspector] public delegate void PauseGameplay();
 	[HideInInspector] public delegate void UnPauseGameplay();
-	[HideInInspector] public static event PauseGameplay Gameplay_Pause;
-	[HideInInspector] public static event UnPauseGameplay Gameplay_UnPause;
+	[HideInInspector] public static event  PauseGameplay Gameplay_Pause;
+	[HideInInspector] public static event  UnPauseGameplay Gameplay_UnPause;
 	
 	void Awake()
 	{
@@ -64,7 +64,9 @@ public class GameController : MonoBehaviour
 	// When App is interrupted, ex. Home button
 	void OnApplicationPause()
 	{
-		PauseGame(true);
+		// Do not pause if game is finished
+		if (GameState == GameStatus.PLAYING)
+			PauseGame(true);
 	}
 	
 	#endif
@@ -76,6 +78,10 @@ public class GameController : MonoBehaviour
 	
 	public void PauseGame(bool pauseGame)
 	{
+		// If the games state is not playing or paused, do nothing
+		if (GameState != GameStatus.PLAYING && GameState != GameStatus.PAUSED)
+			return;
+		
 		if (pauseGame)
 		{
 			GameState = GameStatus.PAUSED;

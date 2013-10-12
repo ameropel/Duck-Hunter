@@ -47,14 +47,13 @@ public class GunController : MonoBehaviour
 	public string weapon_zoom_in;
 	public string weapon_reload;
 	public string weapon_final_reload;
-	bool game_pause;
 	
 	#endregion
 	
 	void Start()
 	{
 		//weapon = GameObject.FindGameObjectWithTag("Weapon");	// Find Weapon in scene
-		weapon_anim = gameObject.GetComponent<Animation>();			// Get Weapons animation
+		weapon_anim = gameObject.GetComponent<Animation>();		// Get Weapons animation
 		
 		// Height for footer
 		screen_footer_height = Screen.height - Screen.height/6;
@@ -78,19 +77,21 @@ public class GunController : MonoBehaviour
 	}
 	
 	void PauseAnimations()
-	{
-		game_pause = true;
-		
-		foreach (AnimationState state in animation)
+	{	
+		foreach (AnimationState state in gameObject.animation)
 			state.speed = 0.0f;
 	}
 	
 	void UnPauseAnimations()
 	{
-		game_pause = false;
-		
-		foreach (AnimationState state in animation)
+		foreach (AnimationState state in gameObject.animation)
 			state.speed = 1.0f;
+	}
+	
+	void OnDisable()
+	{
+		GameController.Gameplay_Pause -= PauseAnimations;
+		GameController.Gameplay_UnPause -= UnPauseAnimations;
 	}
 	
 	void EditorInput()
@@ -111,7 +112,7 @@ public class GunController : MonoBehaviour
 	public void FireShotgun()
 	{
 		// Do nothing if game paused
-		if (sc_GameController.GameState == GameController.GameStatus.PAUSED)
+		if (sc_GameController.GameState != GameController.GameStatus.PLAYING)
 			return;
 		
 		// User pressed trigger
@@ -142,7 +143,7 @@ public class GunController : MonoBehaviour
 				ScriptHelper.DebugString("Fire!");
 				
 				// Vibrate Device when shoot
-				Handheld.Vibrate();
+				//Handheld.Vibrate();
 	
 				// Play shotgun fire audioclip
 				sc_AudioManager.PlayAudioClip((int)AudioManager.SoundClips.SHOTGUN_FIRE);
@@ -215,7 +216,7 @@ public class GunController : MonoBehaviour
 	public void ReloadWeapon ()
 	{
 		// Do nothing if game paused
-		if (sc_GameController.GameState == GameController.GameStatus.PAUSED)
+		if (sc_GameController.GameState != GameController.GameStatus.PLAYING)
 			return;
 		
 		// if not reloading and ammo is not maxed... reload
@@ -330,7 +331,7 @@ public class GunController : MonoBehaviour
 	void Weapon_Zoom_In(bool zoom_in)
 	{	
 		// If weapon is reloading user cannot zoom in 
-		if (reloading_weapon || game_pause)
+		if (reloading_weapon || sc_GameController.GameState != GameController.GameStatus.PLAYING)
 			return;
 		
 		if (zoom_in)
