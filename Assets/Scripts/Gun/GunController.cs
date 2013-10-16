@@ -10,13 +10,7 @@ public class GunController : MonoBehaviour
 	[SerializeField] GameController sc_GameController;
 	[SerializeField] GameScore      sc_GameScore;
 	[SerializeField] GameTimer      sc_GameTimer;
-	
-	// Screen Resolution
-	[HideInInspector] public float screen_footer_height;		// Footer height
-	
-	// Application Text
-	[SerializeField] TextMesh text_ammo;
-	
+		
 	// Bullet
 	[SerializeField] GameObject BulletPrefab;
 	[SerializeField] GameObject Bullet_Spawn_Point;
@@ -26,6 +20,7 @@ public class GunController : MonoBehaviour
 	[SerializeField] GameObject Particle_Spawn_Point;
 	
 	// Ammunition
+	[SerializeField] TextMesh text_ammo;
 	private int maximum_ammo = 8;
 	private int current_ammo;
 	
@@ -48,15 +43,15 @@ public class GunController : MonoBehaviour
 	public string weapon_reload;
 	public string weapon_final_reload;
 	
+	// Statistics
+	[HideInInspector] public int Shots_Fired = 0;
+	
 	#endregion
 	
 	void Start()
 	{
 		//weapon = GameObject.FindGameObjectWithTag("Weapon");	// Find Weapon in scene
 		weapon_anim = gameObject.GetComponent<Animation>();		// Get Weapons animation
-		
-		// Height for footer
-		screen_footer_height = Screen.height - Screen.height/6;
 			
 		// Set current ammo to maximum ammuntion
 		current_ammo = maximum_ammo;
@@ -141,6 +136,9 @@ public class GunController : MonoBehaviour
 			{
 				// Debug Text
 				ScriptHelper.DebugString("Fire!");
+				
+				// Increment shots fired
+				Shots_Fired++;
 				
 				// Vibrate Device when shoot
 				//Handheld.Vibrate();

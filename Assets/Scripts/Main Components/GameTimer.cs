@@ -13,7 +13,7 @@ public class GameTimer : MonoBehaviour
 	[HideInInspector] public bool  GameTime_Ended;	// Boolean used if countdown timer reached zero
 	[HideInInspector] public float Game_deltaTime;	// GameTime, used for any even dealing with time.
 	[HideInInspector] public float GameSpeed = 1;	// Game speed. If greater than 1 game speed is reduced.
-	[HideInInspector] public const float MAX_GAMEPLAY_TIME = 300;	// Time is in second, default is 300 (5 minutes) 
+	[HideInInspector] public const float MAX_GAMEPLAY_TIME = 30;	// Time is in second, default is 300 (5 minutes) 
 	
 	void Start()
 	{
