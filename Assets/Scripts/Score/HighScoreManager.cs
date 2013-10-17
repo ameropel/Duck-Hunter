@@ -47,12 +47,12 @@ public class HighScoreManager : MonoBehaviour
 		DefaultSetup(4, 10000, "LIL");
 		DefaultSetup(5, 5000,  "STA");*/
 		
-		DefaultSetup(0, 10000, "KAT");
-		DefaultSetup(1, 9000,  "SHA");
-		DefaultSetup(2, 8000,  "MAL");
-		DefaultSetup(3, 7000,  "JON");
-		DefaultSetup(4, 6000,  "LIL");
-		DefaultSetup(5, 3000,  "STA");
+		DefaultSetup(0, 3000, "KAT");
+		DefaultSetup(1, 2990,  "SHA");
+		DefaultSetup(2, 2000,  "MAL");
+		DefaultSetup(3, 1990,  "JON");
+		DefaultSetup(4, 1000,  "LIL");
+		DefaultSetup(5, 990,  "STA");
 		
 		Debug.Log("Default Names & Scores");
 	}
@@ -125,24 +125,16 @@ public class HighScoreManager : MonoBehaviour
 		yield return null;
 	}
 	
-	bool isHighScore(int score)
-	{
+	public bool isHighScore(int score)
+	{	
 		// If score is greater than or equal to top score,
 		// it is the new high score return true to celebrate
 		if (score >= lb_scores[0]) return true;
 		else return false;
 	}
 	
-	public bool CheckScore()
-	{
-		int score = gameObject.GetComponent<GameScore>().PlayerScore;
-		
-		// If high score celebrate
-		if (isHighScore(score))
-		{
-			// Celebrate	
-		}
-		
+	public bool makeLeaderBoards(int score)
+	{		
 		// If score does not beat last ignore rest
 		if (score < lb_scores[MAX_SCORES-1]) return false;
 		else return true;

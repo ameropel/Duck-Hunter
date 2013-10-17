@@ -58,7 +58,8 @@
      <Compile Include="Assets\Scripts\Buttons\Main Buttons\Scroll.cs" />
      <Compile Include="Assets\Scripts\Buttons\Main Buttons\Slider.cs" />
      <Compile Include="Assets\Scripts\Buttons\Main Buttons\Toggle.cs" />
-     <Compile Include="Assets\Scripts\Buttons\Standard Button\btn_EnterInitials.cs" />
+     <Compile Include="Assets\Scripts\Buttons\Standard Button\GameOver\btn_Continue_ToEnd.cs" />
+     <Compile Include="Assets\Scripts\Buttons\Standard Button\GameOver\btn_EnterInitials.cs" />
      <Compile Include="Assets\Scripts\Buttons\Standard Button\btn_Fire_Shotgun.cs" />
      <Compile Include="Assets\Scripts\Buttons\Standard Button\btn_LoadScene.cs" />
      <Compile Include="Assets\Scripts\Buttons\Standard Button\btn_Menu.cs" />
@@ -96,6 +97,7 @@
      <None Include="Assets\Plugins\Android\bin\AndroidManifest.xml" />
      <None Include="Assets\Plugins\Android\proguard-project.txt" />
      <None Include="Assets\Art\Textures\Scenery\Water\Shaders\FX-Water Simple.shader" />
+     <None Include="Assets\Scripts\Shaders\UnlitTansparent_Alpha.shader" />
      <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
      <None Include="Assets\Plugins\Android\res\values\strings.xml" />
   </ItemGroup>

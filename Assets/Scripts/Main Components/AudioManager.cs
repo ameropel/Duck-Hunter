@@ -12,6 +12,8 @@ public class AudioManager : MonoBehaviour
 	[SerializeField] AudioClip Duck_Call_1;
 	[SerializeField] AudioClip Duck_Call_2;
 	[SerializeField] AudioClip Goose_Call_1;
+	[SerializeField] AudioClip Celebration_Tada;
+	[SerializeField] AudioClip Crowd_Aww;
 	#endregion
 	
 	private bool _volumeMute = false;
@@ -44,7 +46,11 @@ public class AudioManager : MonoBehaviour
 		DUCK_CALL_2,
 		
 		// Geese sounds
-		GOOSE_CALL_1
+		GOOSE_CALL_1,
+		
+		// End Game Sound Effects
+		CELEBRATION_TADA,
+		CROWD_AWW
 	}
 	
 	void Awake()
@@ -64,6 +70,9 @@ public class AudioManager : MonoBehaviour
 		soundDictionary.Add((int)SoundClips.DUCK_CALL_2, Duck_Call_2);
 		// Goose
 		soundDictionary.Add((int)SoundClips.GOOSE_CALL_1, Goose_Call_1);
+		// End Game Effects
+		soundDictionary.Add((int)SoundClips.CELEBRATION_TADA, Celebration_Tada);
+		soundDictionary.Add((int)SoundClips.CROWD_AWW, Crowd_Aww);
 	}
 	
 	void Start()

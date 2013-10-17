@@ -2,12 +2,10 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Game Components/GameOver.cs">
     <Files>
+      <File FileName="Assets/Scripts/Game Components/GameOver.cs" Line="230" Column="81" />
       <File FileName="Assets/Scripts/Main Components/GameTimer.cs" Line="16" Column="61" />
-      <File FileName="Assets/Scripts/Score/HighScoreManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Main Components/GameController.cs" Line="82" Column="41" />
-      <File FileName="Assets/Scripts/Game Components/GameOver.cs" Line="108" Column="83" />
-      <File FileName="Assets/Scripts/Gun/GunController.cs" Line="47" Column="47" />
-      <File FileName="Assets/Scripts/Score/GameScore.cs" Line="68" Column="10" />
+      <File FileName="Assets/Scripts/Score/HighScoreManager.cs" Line="132" Column="42" />
+      <File FileName="Assets/Scripts/Main Components/AudioManager.cs" Line="75" Column="48" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
