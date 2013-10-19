@@ -46,7 +46,8 @@ public class Android_Compass : MonoBehaviour
 		AndroidJavaClass cls_CompassActivity = new AndroidJavaClass("com.Ameropel.DuckHunter.CompassActivity");
 				
 			// Get compass values (pitch, roll, yaw)
-			xValue = cls_CompassActivity.CallStatic<float>("getX");
+			xValue = ScriptHelper.RoundValue(cls_CompassActivity.CallStatic<float>("getX"), 0.01f);
+			//xValue = cls_CompassActivity.CallStatic<float>("getX");
 			
 			// Do not need roll and pitch
 			//yValue = cls_CompassActivity.CallStatic<float>("getY");

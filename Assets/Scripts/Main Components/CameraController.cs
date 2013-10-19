@@ -10,6 +10,9 @@ public class CameraController : MonoBehaviour
 	#endif
 	[SerializeField] GameTimer sc_GameTimer;
 	[SerializeField] GameController sc_GameController;
+	
+	[SerializeField] TextMesh Test_Yaw;
+	[SerializeField] TextMesh Test_Android;
 		
 	// Calculate pitch
 	float pitch = 0;
@@ -24,8 +27,6 @@ public class CameraController : MonoBehaviour
 	// Calculate yaw
 	float yaw = 0;
 	float old_yaw, new_yaw, current_yaw, starting_yaw, yaw_max, yaw_min;
-	float yaw_angle_max = 110;
-	float yaw_angle_min = -110;
 	float camera_yaw_drag = 0.65f;	// Time it takes for user to look left to right (drag value)
 	
 	
@@ -65,10 +66,7 @@ public class CameraController : MonoBehaviour
 			yield return null;
 		
 		starting_yaw = (( (sc_Android_Compass.Yaw - sc_Android_Compass.Yaw_Min)
-						* 360) / sc_Android_Compass.Yaw_Range) + 0;
-		
-		yaw_max = starting_yaw + yaw_angle_max;
-		yaw_min = starting_yaw + yaw_angle_min; 
+						* 360) / sc_Android_Compass.Yaw_Range) + 0; 
 		#endif
 		
 		yield return null;
@@ -89,15 +87,9 @@ public class CameraController : MonoBehaviour
 	{
 		// Get arrow input. Only used in editor to get camera rotation
 		if (Input.GetKey(KeyCode.LeftArrow))
-		{
-			if (yaw >= yaw_angle_min)
-				yaw -= 1;
-		}
+			yaw -= 1;
 		if (Input.GetKey(KeyCode.RightArrow))
-		{
-			if (yaw <= yaw_angle_max)
-				yaw += 1;
-		}
+			yaw += 1;
 		if (Input.GetKey(KeyCode.UpArrow))
 		{
 			if (pitch <= pitch_angle_max)
@@ -128,11 +120,15 @@ public class CameraController : MonoBehaviour
 	{
 		// NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin
 		yaw = (( (sc_Android_Compass.Yaw - sc_Android_Compass.Yaw_Min)
-				* 360) / sc_Android_Compass.Yaw_Range) + 0;
+				* 360) / sc_Android_Compass.Yaw_Range) + 0;	
 		
 		// Subtract find zero value for yaw
 		yaw = starting_yaw - yaw;
+		yaw = Mathf.CeilToInt(yaw);
 		
+		// Used for debug purposes
+		Test_Android.text = (sc_Android_Compass.Yaw).ToString();
+		Test_Yaw.text = (-yaw).ToString();
 		
 		// Return positive value for yaw.
 		return -yaw;

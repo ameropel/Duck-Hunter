@@ -17,7 +17,6 @@ public class InputManager : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{
 		  	ScriptHelper.DebugString("Back Button");
-			sc_GameController.PauseGame(true);
 		}
 		
 		// Android Menu Button

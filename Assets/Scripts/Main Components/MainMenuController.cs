@@ -7,14 +7,15 @@ public class MainMenuController : MonoBehaviour
 	{	StartGame = 0, Leaderboards, Credits	};
 	MenuToAccess currentMenu;
 	
-	[SerializeField] GameObject Leaderboards;
 	[SerializeField] GameObject MainMenu;
-	[SerializeField] Collider ScreenBlocker;
+	[SerializeField] GameObject Leaderboards;
+	[SerializeField] GameObject Credits;
 	
 	void Start()
 	{
 		// Set all menus except main menu to be inactive
 		Leaderboards.SetActive(false);
+		Credits.SetActive(false);
 	}
 	
 	public void Access_Menu(MenuToAccess menuTo)
@@ -32,36 +33,31 @@ public class MainMenuController : MonoBehaviour
 			case MenuToAccess.Leaderboards:
 				StartCoroutine( Menu_TransitionOut(Leaderboards) );
 				break;
+			
+			case MenuToAccess.Credits:
+				StartCoroutine( Menu_TransitionOut(Credits) );
+				break;
 		}
 	}
 	
 	IEnumerator Menu_TransitionOut(GameObject go)
 	{
-		// Activate screen blocker so user cant press buttons during transition 
-		ScreenBlocker.enabled = true;
-		MainMenu.SetActive(true);
+		// Wait for animation to stop playing to deactivate
 		PlayAnimation(go, false);
-		
-		// Add a hiccup before transitioning in new menu
-		yield return new WaitForSeconds(0.5f);
-		PlayAnimation(MainMenu, true);
-		
-		// Wait for animation to stop playing to deactivate collider
 		yield return new WaitForSeconds(go.animation.clip.length);
 		go.SetActive(false);
 		
-		// Deactivate screen blocker so user can press buttons again 
-		ScreenBlocker.enabled = false;
+		MainMenu.SetActive(true);
+		PlayAnimation(MainMenu, true);
+		
 	}
 	
 	IEnumerator MainMenu_TransitionOut(MenuToAccess menu)
 	{
-		// Activate screen blocker so user cant press buttons during transition 
-		ScreenBlocker.enabled = true;
-		PlayAnimation(MainMenu, false);
-		
-		// Add a hiccup before transitioning in new menu
-		yield return new WaitForSeconds(0.5f);
+		MainMenu.animation.Play("menu_out");
+		// Wait for animation to stop playing to deactivate
+		yield return new WaitForSeconds(MainMenu.animation["menu_out"].length);
+		MainMenu.SetActive(false);
 		
 		switch(menu)
 		{
@@ -69,14 +65,12 @@ public class MainMenuController : MonoBehaviour
 				Leaderboards.SetActive(true);
 				PlayAnimation(Leaderboards, true);
 				break;
+			
+			case MenuToAccess.Credits:
+				Credits.SetActive(true);
+				PlayAnimation(Credits, true);
+				break;
 		}
-		
-		// Wait for animation to stop playing to deactivate collider
-		yield return new WaitForSeconds(MainMenu.animation.clip.length);
-		MainMenu.SetActive(false);
-		
-		// Deactivate screen blocker so user can press buttons again 
-		ScreenBlocker.enabled = false;
 	}
 	
 	void PlayAnimation(GameObject go, bool forward)

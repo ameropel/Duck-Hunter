@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using PlayerPrefs = PreviewLabs.PlayerPrefs;
 
 public class AudioManager : MonoBehaviour 
 {
@@ -24,6 +25,7 @@ public class AudioManager : MonoBehaviour
 		set
 		{
 			_volumeMute = value;
+			PlayerPrefs.SetBool("audio_sfx", _volumeMute);
 			audioSource.mute = _volumeMute;
 		}
 	}
@@ -79,6 +81,7 @@ public class AudioManager : MonoBehaviour
 	{
 		// Store Audio Source
 		audioSource = gameObject.GetComponent<AudioSource>();
+		audioSource.mute = PlayerPrefs.GetBool("audio_sfx", false);
 	}
 	
 	public void PlayAudioClip(int key)
@@ -102,5 +105,10 @@ public class AudioManager : MonoBehaviour
 	
 		if( soundDictionary.ContainsKey(random_int) && soundDictionary[random_int])
 			audio.PlayOneShot(soundDictionary[random_int], 10.0f);
+	}
+	
+	void OnApplicationQuit()
+	{
+		PlayerPrefs.SetBool("audio_sfx", false);
 	}
 }

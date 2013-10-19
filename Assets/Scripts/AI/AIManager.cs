@@ -14,7 +14,7 @@ public class AIManager : MonoBehaviour
 	GameObject duckWave_One, duckWave_Two, duckWave_Three;
 	GameObject gooseWave_One;
 	float timeBetweenWaves = 15;	// Time to launch a new wave
-	float aiPath_Duration = 40;		// Time it takes bird to reach point a to b
+	float aiPath_Duration = 45;		// Time it takes bird to reach point a to b
 	float stopProducingWaves_time;	// Time that waves will stop being produced
 	
 	List<GameObject> BirdWaveTypes = new List<GameObject>();							// Holds bird types

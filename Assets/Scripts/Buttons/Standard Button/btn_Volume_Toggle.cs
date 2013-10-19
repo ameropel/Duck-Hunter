@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using PlayerPrefs = PreviewLabs.PlayerPrefs;
 
 public class btn_Volume_Toggle : Toggle 
 {
@@ -12,8 +13,13 @@ public class btn_Volume_Toggle : Toggle
 	{
 		base.Start();
 		
+		bool mute = PlayerPrefs.GetBool("audio_sfx", false);
+		
 		// Change gameplay text
-		MuteText.text = "Mute  Off";
+		if (mute)
+			MuteText.text = "Mute  On";
+		else
+			MuteText.text = "Mute  Off";
 	}
 	
 	public override void PerfromTransition()

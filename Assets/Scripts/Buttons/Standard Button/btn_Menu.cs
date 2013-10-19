@@ -10,7 +10,7 @@ public class btn_Menu:  Button
 	public MenuToAccess	MenuTransitionTo;
 	
 	public override void PerfromTransition()
-	{
+	{		
 		base.PerfromTransition();
 		
 		switch (MenuTransitionTo)
@@ -21,6 +21,10 @@ public class btn_Menu:  Button
 			
 			case MenuToAccess.Leaderboards:	
 				sc_MainMenuController.Access_Menu(MainMenuController.MenuToAccess.Leaderboards);
+				break;
+			
+			case MenuToAccess.Credits:	
+				sc_MainMenuController.Access_Menu(MainMenuController.MenuToAccess.Credits);
 				break;
 		}
 	}

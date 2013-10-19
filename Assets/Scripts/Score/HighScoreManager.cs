@@ -40,19 +40,19 @@ public class HighScoreManager : MonoBehaviour
 	{
 		// Default List
 		// Set default scores and names		
-		/*DefaultSetup(0, 50000, "KAT");
+		DefaultSetup(0, 50000, "KAT");
 		DefaultSetup(1, 40000, "SHA");
 		DefaultSetup(2, 30000, "MAL");
 		DefaultSetup(3, 20000, "JON");
 		DefaultSetup(4, 10000, "LIL");
-		DefaultSetup(5, 5000,  "STA");*/
-		
+		DefaultSetup(5, 5000,  "STA");
+		/*
 		DefaultSetup(0, 3000, "KAT");
 		DefaultSetup(1, 2990,  "SHA");
 		DefaultSetup(2, 2000,  "MAL");
 		DefaultSetup(3, 1990,  "JON");
 		DefaultSetup(4, 1000,  "LIL");
-		DefaultSetup(5, 990,  "STA");
+		DefaultSetup(5, 990,  "STA"); */
 		
 		Debug.Log("Default Names & Scores");
 	}

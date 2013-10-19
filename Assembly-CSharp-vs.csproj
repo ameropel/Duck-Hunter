@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\AI\AIManager_Menu.cs" />
      <Compile Include="Assets\Scripts\AI\Birds\Bird.cs" />
      <Compile Include="Assets\Scripts\AI\ai_BirdPath.cs" />
+     <Compile Include="Assets\Scripts\Android\AdBanner.cs" />
      <Compile Include="Assets\Scripts\Android\Android_Accelerometer.cs" />
      <Compile Include="Assets\Scripts\Android\Android_Compass.cs" />
      <Compile Include="Assets\Scripts\Buttons\Holding Buttons\btn_Hold_Zoom_Weapon.cs" />
@@ -63,8 +64,8 @@
      <Compile Include="Assets\Scripts\Buttons\Standard Button\btn_Fire_Shotgun.cs" />
      <Compile Include="Assets\Scripts\Buttons\Standard Button\btn_LoadScene.cs" />
      <Compile Include="Assets\Scripts\Buttons\Standard Button\btn_Menu.cs" />
+     <Compile Include="Assets\Scripts\Buttons\Standard Button\btn_Pause_Resume.cs" />
      <Compile Include="Assets\Scripts\Buttons\Standard Button\btn_Reload_Shotgun.cs" />
-     <Compile Include="Assets\Scripts\Buttons\Standard Button\btn_Resume_Game.cs" />
      <Compile Include="Assets\Scripts\Buttons\Standard Button\btn_Start_Game.cs" />
      <Compile Include="Assets\Scripts\Buttons\Standard Button\btn_Volume_Toggle.cs" />
      <Compile Include="Assets\Scripts\Debug\Debugger.cs" />
@@ -91,15 +92,22 @@
      <Compile Include="Assets\Scripts\Splines\SplineController_Menu.cs" />
      <Compile Include="Assets\Scripts\Splines\SplineInterpolator.cs" />
      <Compile Include="Assets\Scripts\Splines\SplineInterpolator_Menu.cs" />
+     <None Include="Assets\Plugins_2\Android\AndroidManifest.xml" />
      <None Include="Assets\Plugins\Android\res\values-v14\styles.xml" />
      <None Include="Assets\Plugins\Android\res\values-v11\styles.xml" />
      <None Include="Assets\Plugins\Android\res\values\styles.xml" />
+     <None Include="Assets\Plugins_2\Android\res\values-v11\styles.xml" />
      <None Include="Assets\Plugins\Android\bin\AndroidManifest.xml" />
      <None Include="Assets\Plugins\Android\proguard-project.txt" />
+     <None Include="Assets\Plugins_2\Android\bin\AndroidManifest.xml" />
+     <None Include="Assets\Plugins_2\Android\proguard-project.txt" />
+     <None Include="Assets\Plugins_2\Android\res\values\styles.xml" />
      <None Include="Assets\Art\Textures\Scenery\Water\Shaders\FX-Water Simple.shader" />
+     <None Include="Assets\Plugins_2\Android\res\values\strings.xml" />
      <None Include="Assets\Scripts\Shaders\UnlitTansparent_Alpha.shader" />
      <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
      <None Include="Assets\Plugins\Android\res\values\strings.xml" />
+     <None Include="Assets\Plugins_2\Android\res\values-v14\styles.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
